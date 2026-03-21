@@ -208,8 +208,9 @@ useSeoMeta({
   object-fit: cover;
 }
 
+/*
 .charities {
-  /* padding: 8rem max(2rem, 5%) 0; */
+  padding: 8rem max(2rem, 5%) 0;
 }
 
 .charities__banner {
@@ -227,6 +228,7 @@ useSeoMeta({
   box-sizing: border-box;
   text-align: center;
 }
+*/
 
 .partners {
   text-align: center;
