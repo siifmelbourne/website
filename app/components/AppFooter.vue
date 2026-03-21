@@ -17,28 +17,28 @@
       <a href="https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7509/">
         <img
           class="footer-right__icon"
-          src="assets/images/umsu.webp"
+          src="/umsu.webp"
           alt="UMSU logo"
         />
       </a>
       <a href="https://instagram.com/siifund_unimelb">
         <img
           class="footer-right__icon"
-          src="assets/images/instagram.webp"
+          src="/instagram.webp"
           alt="Instagram logo"
         />
       </a>
       <a href="https://www.facebook.com/siifund/">
         <img
           class="footer-right__icon"
-          src="assets/images/facebook.webp"
+          src="/facebook.webp"
           alt="Facebook logo"
         />
       </a>
       <a href="https://www.linkedin.com/company/siif-unimelb/?originalSubdomain=au">
         <img
           class="footer-right__icon"
-          src="assets/images/linkedin.webp"
+          src="/linkedin.webp"
           alt="Linkedin logo"
         />
       </a>
