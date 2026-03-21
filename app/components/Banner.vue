@@ -17,6 +17,17 @@ const imgUrl = img('/v1772458824/IMG_8254_vo2ius.jpg', { width: 1600 })
 const backgroundStyles = {
   backgroundImage: `url('${imgUrl}')`
 }
+
+useHead({
+  link: [
+    {
+      rel: 'preload',
+      as: 'image',
+      href: imgUrl,
+      fetchpriority: 'high'
+    }
+  ]
+})
 </script>
 
 <style scoped>
