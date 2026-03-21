@@ -1,4 +1,23 @@
 <script setup>
+if (import.meta.server) {
+  useSeoMeta({
+    title: 'Social Impact Investment Fund | Home',
+    description: 'The first and only student led investment fund in Victoria managing real capital, providing students the opportunity to pitch investment ideas.',
+    robots: 'index, follow',
+
+    // The title of your page without any branding such as your site name
+    ogTitle: 'Home',
+    ogUrl: 'https://www.siifmelbourne.com/',
+    ogDescription: 'The first and only student led investment fund in Victoria managing real capital, providing students the opportunity to pitch investment ideas.',
+    // ogImage: 
+
+    twitterCard: 'summary_large_image',
+    twitterTitle: 'Social Impact Investment Fund | Home',
+    twitterDescription: 'The first and only student led investment fund in Victoria managing real capital, providing students the opportunity to pitch investment ideas.',
+    // twitterImage:
+  })
+}
+
 const committeeImages = [
   ["/v1772597859/joinus1_uaylhm.jpg", "Three young men in suits posing under a stone archway outdoors"],
   ["/v1772597859/joinus2_tuidyb.jpg", "Group of friends dining together at a restaurant table at night"],
@@ -8,6 +27,15 @@ const committeeImages = [
   ["/v1772597869/joinus6_nduawb.jpg", "Three young women posing together indoors, smiling and making peace signs"],
   ["/v1772597862/joinus7_hzkxj9.jpg", "Group of friends socialising in a dimly lit bar or lounge"]
 ]
+
+const img = useImage()
+const imgUrl = img('/v1772458824/IMG_8254_vo2ius.jpg', { width: 1080 })
+
+// https://developers.facebook.com/docs/sharing/best-practices#images
+useSeoMeta({
+  ogImage: imgUrl,
+  twtterImage: imgUrl
+})
 </script>
 
 <template>
