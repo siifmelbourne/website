@@ -3,8 +3,8 @@
     <div class="menu-icon__bar"></div>
     <div class="menu-icon__bar"></div>
     <div class="menu-icon__bar"></div>
-    <a class="cross" href="#"></a>
-    <a class="hamburger" href="#site-overlay"></a>
+    <a class="cross" href="#" aria-label="Close navigation modal"></a>
+    <a class="hamburger" href="#site-overlay" aria-label="Open navigation modal"></a>
   </div>
 </template>
 
