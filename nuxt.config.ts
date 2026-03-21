@@ -91,7 +91,7 @@ hooks: {
   modules: ['@nuxt/image'],
 
   image: {
-    quality: 80,
+    quality: 60,
     format: ['avif', 'webp'],
     provider: 'cloudinary',
     cloudinary: {
