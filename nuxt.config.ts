@@ -31,6 +31,14 @@ hooks: {
     },
   },
 
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en'
+      }
+    }
+  },
+
   vite: {
     plugins: [
       license({
