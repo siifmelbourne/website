@@ -33,6 +33,7 @@ hooks: {
 
   app: {
     head: {
+      title: 'Social Impact Investment Fund', // default fallback title
       htmlAttrs: {
         lang: 'en'
       }
