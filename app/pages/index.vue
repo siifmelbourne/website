@@ -1,12 +1,12 @@
 <script setup>
 const committeeImages = [
-  '/v1772597859/joinus1_uaylhm.jpg',
-  '/v1772597859/joinus2_tuidyb.jpg',
-  '/v1772597861/joinus3_mholae.heic',
-  '/v1772597859/joinus4_l16ikg.heic',
-  '/v1772597861/joinus5_fhvw6a.heic',
-  '/v1772597869/joinus6_nduawb.jpg',
-  '/v1772597862/joinus7_hzkxj9.jpg'
+  ["/v1772597859/joinus1_uaylhm.jpg", "Three young men in suits posing under a stone archway outdoors"],
+  ["/v1772597859/joinus2_tuidyb.jpg", "Group of friends dining together at a restaurant table at night"],
+  ["/v1772597861/joinus3_mholae.heic", "Gathering of friends at dinner table, smiling at camera"],
+  ["/v1772597859/joinus4_l16ikg.heic", "Friends gathered around a table at a casual restaurant taking a selfie"],
+  ["/v1772597861/joinus5_fhvw6a.heic", "Busy hallway outside of event, one person glances at the camera"],
+  ["/v1772597869/joinus6_nduawb.jpg", "Three young women posing together indoors, smiling and making peace signs"],
+  ["/v1772597862/joinus7_hzkxj9.jpg", "Group of friends socialising in a dimly lit bar or lounge"]
 ]
 </script>
 
@@ -42,6 +42,7 @@ const committeeImages = [
           class="about-us__img"
           src="/v1772546946/commitee-pic_ezp0iu.jpg"
           width="700"
+          alt="Committee members in formal dress standing in front of sandstone building"
         />
       </div>
     </section>
@@ -55,30 +56,35 @@ const committeeImages = [
           <NuxtImg
             class="partners__icon-img"
             src="v1772595720/rc_ddibvb.png"
+            alt="River Capital logo"
           />
         </NuxtLink>
         <NuxtLink class="partners__icon" href="https://sig.com/" target="_blank">
           <NuxtImg
             class="partners__icon-img"
             src="/v1772593791/susquehanna_cpwxsl.png"
+            alt="Susquehanna logo"
           />
         </NuxtLink>
         <NuxtLink class="partners__icon" href="https://inaam.me/" target="_blank">
           <NuxtImg
             class="partners__icon-img"
             src="/v1772596172/inaam_fj10q4.png"
+            alt="Inaam logo"
           />
         </NuxtLink>
         <NuxtLink class="partners__icon" href="https://www.you.co/" target="_blank">
           <NuxtImg
             class="partners__icon-img"
             src="/v1772596535/youtrip_tzdjz3.png"
+            alt="YouTrip logo"
           />
         </NuxtLink>
         <NuxtLink class="partners__icon" href="https://www.futurefund.gov.au/" target="_blank">
           <NuxtImg
             class="partners__icon-img"
             src="/v1772596755/ff_gxvkkt.png"
+            alt="Future Fund logo"
           />
         </NuxtLink>
       </div>
@@ -95,11 +101,12 @@ const committeeImages = [
       <p class="text text--p">We want <em>you</em> to be a part of SIIF.<br>Follow us on our socials or contact us to find out how to get involved!</p>
       <div class="community__container">
         <NuxtImg
-          v-for="src in committeeImages"
-          :key="src"
+          v-for="data in committeeImages"
+          :key="data"
           class="community__img"
-          :src="src"
+          :src="data[0]"
           width="300"
+          :alt="data[1]"
         />
       </div>
     </section>
