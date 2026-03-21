@@ -15,19 +15,28 @@
     </div>
     <div class="footer-right">
       <a href="https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7509/">
-        <NuxtImg
+        <img
           class="footer-right__icon"
-          src="/v1772598694/umsu_powrbi.png"
+          src="assets/images/umsu.webp"
         />
       </a>
-      <a href="https://instagram.com/siifund_unimelb" aria-hidden="true">
-        <i class="footer-right__icon fab fa-instagram"></i>
+      <a href="https://instagram.com/siifund_unimelb">
+        <img
+          class="footer-right__icon"
+          src="assets/images/instagram.webp"
+        />
       </a>
-      <a href="https://www.facebook.com/siifund/" aria-hidden="true">
-        <i class="footer-right__icon fab fa-facebook"></i>
+      <a href="https://www.facebook.com/siifund/">
+        <img
+          class="footer-right__icon"
+          src="assets/images/facebook.webp"
+        />
       </a>
-      <a href="https://www.linkedin.com/company/siif-unimelb/?originalSubdomain=au" aria-hidden="true">
-        <i class="footer-right__icon fab fa-linkedin"></i>
+      <a href="https://www.linkedin.com/company/siif-unimelb/?originalSubdomain=au">
+        <img
+          class="footer-right__icon"
+          src="assets/images/linkedin.webp"
+        />
       </a>
     </div>
   </footer>
