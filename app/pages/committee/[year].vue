@@ -32,8 +32,7 @@
         </li>
       </ul>
     </div>
-    <h2 class="text text--h2">Hey! This page is under construction - check back later :)</h2>
-    <!--<MemberSection :year="year" />-->
+    <MemberSection :year="year" />
 
   </section>
 </template>
