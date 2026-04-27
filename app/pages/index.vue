@@ -39,7 +39,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <Banner title="social impact that's different" />
+  <Banner title="social impact investment fund" />
   <ul class="stats-bar">
     <li class="stat">
       <CountUp class="stat__number text--serif" :start=1000 :end=1400 prefix="$" suffix="+" :delay="-1000" />
