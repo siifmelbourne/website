@@ -1,12 +1,16 @@
 <template>
   <div class="role-card">
-    <h3 class="text text--h3 text--serif">{{ role.title }}</h3>
-    <div class="member-group">
-      <div v-for="member in role.relation" :key="member.id" class="member">
-        <img class="member-img" :src="member.url" :alt="member.name" />
-        <p class="text text--p">{{ member.name }}</p>
-      </div>
-    </div>
+    <h3 class="text text--h3 text--serif">{{ title }}</h3>
+    <NuxtImg
+      class="member-img"
+      :src="url" 
+      width="160"
+      height="160"
+      :alt="name"
+      fit="thumb"
+      :modifiers="{ gravity: 'face', zoom: 0.7 }"
+    />
+    <p class="text text--p">{{ name }}</p>
   </div>
 </template>
 
@@ -14,12 +18,9 @@
 import { defineProps } from 'vue'
 
 const props = defineProps({
-  role: {
-    type: Object,
-    required: true,
-    // Example structure: 
-    // { title: 'Team Lead', relation: [{ id: 1, name: 'Alice', url: '...' }, ...] }
-  }
+  title: String,
+  url: String,
+  name: String
 })
 </script>
 

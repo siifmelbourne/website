@@ -1,25 +1,13 @@
 <template>
   <div class="committee">
-    <div
-      v-for="team in data || []"
-      :key="team[0]?.id"
-      class="committee-team"
-    >
-      <div class="committee-row">
-        <div
-          v-for="role in team.slice(0, 1)"
-          :key="role.id"
-        >
-          <RoleCard :role="role" />
-        </div>
-      </div>
-
-      <div class="committee-row">
-        <div
-          v-for="role in team.slice(1)"
-          :key="role.id"
-        >
-          <RoleCard :role="role" />
+    <div v-for="team in data">
+      <div v-for="role in team">
+        <div v-for="member in role">
+          <RoleCard
+            :title="member.title"
+            :url="member.url"
+            :name="member.name"
+          />
         </div>
       </div>
     </div>

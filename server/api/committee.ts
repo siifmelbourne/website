@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   }
 
   // expensive API call
-  const data = await $fetch(`https://lshtgdpdskhqqxdcwpjo.supabase.co/functions/v1/notion-integration-v2?year=${year}`)
+  const data = await $fetch(`https://lshtgdpdskhqqxdcwpjo.supabase.co/functions/v1/pull-images`)
 
   // cache for 1 hour
   cache[year] = { data, expiry: now + 1000 * 60 * 60 }
