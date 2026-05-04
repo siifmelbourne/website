@@ -6,7 +6,7 @@
       <ul>
         <li class="text text--h3 text--serif">
           <NuxtLink
-            to="/committee/2026 Sem 1"
+            to="/committee/2026-sem-1"
             class="nav-link"
           >
             2026 sem 1
@@ -15,7 +15,7 @@
 
         <li class="text text--h3 text--serif">
           <NuxtLink
-            to="/committee/2025 Sem 2"
+            to="/committee/2025-sem-2"
             class="nav-link"
           >
             2025 sem 2
@@ -24,7 +24,7 @@
 
         <li class="text text--h3 text--serif">
           <NuxtLink
-            to="/committee/2025 Sem 1"
+            to="/committee/2025-sem-1"
             class="nav-link"
           >
             2025 sem 1
