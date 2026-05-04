@@ -1,14 +1,13 @@
 <template>
   <div class="committee">
     <div v-for="team in data">
-      <div v-for="role in team">
-        <div v-for="member in role">
-          <RoleCard
-            :title="member.title"
-            :url="member.url"
-            :name="member.name"
-          />
-        </div>
+      <div class="committee-row" v-for="role in team">
+        <RoleCard
+          v-for="member in role"
+          :title="member.title"
+          :url="member.url"
+          :name="member.name"
+        />
       </div>
     </div>
   </div>
@@ -27,9 +26,14 @@ const { data } = await useAsyncData(
 </script>
 
 <style scoped>
+.committee {
+  gap: 4rem;
+}
+
 .committee-row {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  gap: 0 4rem;
 }
 </style>

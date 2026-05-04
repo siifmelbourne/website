@@ -1,6 +1,6 @@
 <template>
   <div class="role-card">
-    <h3 class="text text--h3 text--serif">{{ title }}</h3>
+    <h3 class="text text--p text--serif">{{ title }}</h3>
     <NuxtImg
       class="member-img"
       :src="url" 
@@ -29,7 +29,9 @@ const props = defineProps({
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center
+  align-items: center;
+  width: 10rem;
+  text-align: center;
 }
 
 .member-group {
