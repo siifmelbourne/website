@@ -68,7 +68,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/committee': {
-      redirect: '/committee/2026%20Sem%201'
+      redirect: '/committee/2026-sem-1'
     },
     '/contact': {
       redirect: '/contact/club-membership'
