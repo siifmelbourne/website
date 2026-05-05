@@ -5,6 +5,16 @@ import fs from 'fs'
 import path from 'path'
 
 export default defineNuxtConfig({
+  nitro: {
+    prerender: {
+      routes: [
+        '/committee/2026-sem-1',
+        '/committee/2025-sem-2',
+        '/committee/2025-sem-1'
+      ],
+    },
+  },
+  
   hooks: {
     'nitro:build:public-assets': (nitro) => {
       const nuxtDir = path.join(nitro.options.output.publicDir, '_nuxt')
