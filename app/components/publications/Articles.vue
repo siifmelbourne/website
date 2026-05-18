@@ -1,10 +1,4 @@
 <script setup>
-import useEmblaCarousel from 'embla-carousel-vue'
-
-const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false })
-
-const scrollPrev = () => emblaApi.value?.scrollPrev()
-const scrollNext = () => emblaApi.value?.scrollNext()
 </script>
 
 <template>
@@ -15,18 +9,6 @@ const scrollNext = () => emblaApi.value?.scrollNext()
       <PictureItem title="Global Macro Outlook" description="A concise macroeconomic briefing exploring inflation, interest-rate trends, commodity cycles and foreign-exchange outlooks shaping global markets over 2025–27." date="December 17, 2025"/>
       <PictureItem title="Enterprise Value vs. Equity Value: Interview Guide" description="A clear, interview‑focused guide explaining the difference between Enterprise Value and Equity Value in company valuation." date="May 24, 2025"/>
       <PictureItem title="DCF Analysis: Interview Guide" description="A concise interview guide to walking through a DCF (Discounted Cash Flow) analysis, breaking down key steps, formulas and valuation logic." date="May 11, 2025"/>
-    </div>
-    <div class="embla">
-      <div class="embla__viewport" ref="emblaRef">
-        <div class="embla__container">
-          <div class="embla__slide">Slide 1</div>
-          <div class="embla__slide">Slide 2</div>
-          <div class="embla__slide">Slide 3</div>
-        </div>
-      </div>
-
-      <button class="embla__prev" @click="scrollPrev">Scroll to prev</button>
-      <button class="embla__next" @click="scrollNext">Scroll to next</button>
     </div>
   </div>
 </template>
@@ -42,19 +24,5 @@ const scrollNext = () => emblaApi.value?.scrollNext()
   .article-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-}
-
-.embla__viewport {
-  overflow: hidden;
-}
-
-.embla__container {
-  display: flex;
-  touch-action: pan-y pinch-zoom;
-}
-
-.embla__slide {
-  flex: 0 0 100%;
-  min-width: 0;
 }
 </style>
