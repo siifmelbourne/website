@@ -10,7 +10,8 @@ export default defineNuxtConfig({
       routes: [
         '/committee/2026-sem-1',
         '/committee/2025-sem-2',
-        '/committee/2025-sem-1'
+        '/committee/2025-sem-1',
+        '/publications/macro-markets',
       ],
     },
   },
