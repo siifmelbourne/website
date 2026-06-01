@@ -1,5 +1,4 @@
 <template>
-  <Banner title="streamlit dashboards" />
   <main class="main">
     <iframe
       class="embed"
