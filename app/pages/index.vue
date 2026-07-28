@@ -108,13 +108,6 @@ useSeoMeta({
             alt="YouTrip logo"
           />
         </NuxtLink>
-        <NuxtLink class="partners__icon" href="https://www.futurefund.gov.au/" target="_blank">
-          <NuxtImg
-            class="partners__icon-img"
-            src="/v1772596755/ff_gxvkkt.png"
-            alt="Future Fund logo"
-          />
-        </NuxtLink>
       </div>
     </section>
     <!-- I'm really not a fan of this section's design! -->
