@@ -1,51 +1,18 @@
-const cache = new Map()
-
-async function fetchData(year) {
-  return await $fetch(
-    `https://lshtgdpdskhqqxdcwpjo.supabase.co/functions/v1/serve-committee`,
-    { params: { year } }
-  )
-}
+const committeeEndpoint = 'https://lshtgdpdskhqqxdcwpjo.supabase.co/functions/v1/serve-committee'
 
 export default eventHandler(async (event) => {
   const query = getQuery(event)
-  const year = query.year
+  const year = Array.isArray(query.year) ? query.year[0] : query.year
 
-  const key = `committee-${year || 'all'}`
-  const now = Date.now()
+  setHeader(event, 'Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+  setHeader(event, 'Pragma', 'no-cache')
+  setHeader(event, 'Expires', '0')
+  setHeader(event, 'Surrogate-Control', 'no-store')
 
-  const maxAge = 1000 * 60 * 5        // 5 min fresh
-  const staleMaxAge = 1000 * 60 * 30  // 30 min stale
-
-  const cached = cache.get(key)
-
-  if (cached) {
-    const age = now - cached.timestamp
-
-    // Fresh → just return
-    if (age < maxAge) {
-      return cached.data
+  return await $fetch(committeeEndpoint, {
+    params: { year },
+    headers: {
+      'cache-control': 'no-cache'
     }
-
-    // Stale → return immediately AND refresh in background
-    if (age < staleMaxAge) {
-      event.waitUntil(
-        fetchData(year)
-          .then((data) => {
-            cache.set(key, { data, timestamp: Date.now() })
-          })
-          .catch(() => {
-            // keep stale data if refresh fails
-          })
-      )
-
-      return cached.data
-    }
-  }
-
-  // No cache or expired → block and fetch fresh
-  const data = await fetchData(year)
-  cache.set(key, { data, timestamp: now })
-
-  return data
+  })
 })

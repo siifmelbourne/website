@@ -8,9 +8,6 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: [
-        '/committee/2026-sem-1',
-        '/committee/2025-sem-2',
-        '/committee/2025-sem-1',
         '/publications/macro-markets',
       ],
     },
@@ -78,6 +75,14 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    '/api/committee': {
+      headers: {
+        'cache-control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'pragma': 'no-cache',
+        'expires': '0',
+        'surrogate-control': 'no-store'
+      }
+    },
     '/committee': {
       redirect: '/committee/2026-sem-1'
     },
