@@ -2,7 +2,7 @@
   list-style-type: none;
   padding: 0;
   margin: 0;
-  font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+  font-family: var(--font-sans);
 }
 
 /* I admit these utility classes are getting a bit stupid */
@@ -38,12 +38,12 @@
 /* Sourced from https://modernfontstacks.com */
 /* This is Neo-Grotesque */
 .text--sans {
-  font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+  font-family: var(--font-sans);
 }
 
 /* And this is Didone */
 .text--serif {
-  font-family: Didot, 'Bodoni MT', 'Noto Serif Display', 'URW Palladio L', P052, Sylfaen, serif;
+  font-family: var(--font-serif);
 }
 
 /* And this is Monospace Slab Serif */

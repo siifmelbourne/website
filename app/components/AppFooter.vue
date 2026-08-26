@@ -1,47 +1,79 @@
 <template>
   <footer class="site-footer">
-    <div class="footer-left">
-      <NuxtImg
-        class="footer-left__image"
-        src="/v1772598394/unimelb_r0vwzr.png"
-        alt="UniMelb-Logo"
-      />
-      <div>
-        <p class="text footer-left__text"><strong>Social Impact Investment Fund</strong></p>
-        <p class="text footer-left__text">Mailbox 23, Level 4, Building 168, University of Melbourne VIC 3010</p>
-        <p class="text footer-left__text">siif.melbourne@gmail.com</p>
-        <p class="text footer-left__text">2026 Social Impact Investment Fund</p>
-      </div>
+    <div class="site-footer__main">
+      <section class="footer-info" aria-label="SIIF contact details">
+        <p class="footer-info__line">Victoria's premier student-led<br>investment fund.</p>
+        <p class="footer-info__line">Mailbox 23, Level 4, Building 168,<br>University of Melbourne VIC 3010</p>
+        <p class="footer-info__line">siif.melbourne@gmail.com</p>
+      </section>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <section class="footer-nav__column">
+          <h2 class="footer-nav__title">About Us</h2>
+          <ul class="footer-nav__list">
+            <li><NuxtLink to="/about-us">Who We Are</NuxtLink></li>
+            <li><NuxtLink to="/committee/2026-sem-1">Committee</NuxtLink></li>
+            <li><NuxtLink to="/contact/corporate-partner">Partner</NuxtLink></li>
+            <li><NuxtLink to="/contact/corporate-partner">Sponsors</NuxtLink></li>
+          </ul>
+        </section>
+
+        <section class="footer-nav__column">
+          <h2 class="footer-nav__title">Investments</h2>
+          <ul class="footer-nav__list">
+            <li><NuxtLink to="/analysis">Analysis</NuxtLink></li>
+            <li><NuxtLink to="/publications/macro-markets">Macro Markets</NuxtLink></li>
+            <li><NuxtLink to="/publications/articles">Featured Ideas</NuxtLink></li>
+          </ul>
+        </section>
+
+        <section class="footer-nav__column">
+          <h2 class="footer-nav__title">Publications</h2>
+          <ul class="footer-nav__list">
+            <li><NuxtLink to="/publications/macro-markets">Macro Updates</NuxtLink></li>
+            <li><NuxtLink to="/publications/articles">Featured Pieces</NuxtLink></li>
+          </ul>
+        </section>
+
+        <section class="footer-nav__column">
+          <h2 class="footer-nav__title">Contact</h2>
+          <ul class="footer-nav__list">
+            <li><NuxtLink to="/contact/club-membership">Join Us</NuxtLink></li>
+            <li><NuxtLink to="/contact/corporate-partner">Partner With Us</NuxtLink></li>
+            <li><NuxtLink to="/contact/contact-us">Contact Us</NuxtLink></li>
+            <li><NuxtLink to="/events">Events</NuxtLink></li>
+          </ul>
+        </section>
+      </nav>
     </div>
-    <div class="footer-right">
-      <a href="https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7509/">
-        <img
-          class="footer-right__icon"
-          src="/umsu.webp"
-          alt="UMSU logo"
-        />
-      </a>
-      <a href="https://instagram.com/siifund_unimelb">
-        <img
-          class="footer-right__icon"
-          src="/instagram.webp"
-          alt="Instagram logo"
-        />
-      </a>
-      <a href="https://www.facebook.com/siifund/">
-        <img
-          class="footer-right__icon"
-          src="/facebook.webp"
-          alt="Facebook logo"
-        />
-      </a>
-      <a href="https://www.linkedin.com/company/siif-unimelb/?originalSubdomain=au">
-        <img
-          class="footer-right__icon"
-          src="/linkedin.webp"
-          alt="Linkedin logo"
-        />
-      </a>
+
+    <div class="site-footer__bottom">
+      <div class="footer-socials" aria-label="SIIF social links">
+        <a
+          class="footer-socials__join"
+          href="https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7509/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Join SIIF through UMSU"
+        >
+          ↗
+        </a>
+        <a href="https://www.facebook.com/siifund/" target="_blank" rel="noopener noreferrer" aria-label="SIIF on Facebook">
+          <img class="footer-socials__icon" src="/facebook.webp" alt="" />
+        </a>
+        <a href="https://instagram.com/siifund_unimelb" target="_blank" rel="noopener noreferrer" aria-label="SIIF on Instagram">
+          <img class="footer-socials__icon" src="/instagram.webp" alt="" />
+        </a>
+        <a href="https://www.linkedin.com/company/siif-unimelb/?originalSubdomain=au" target="_blank" rel="noopener noreferrer" aria-label="SIIF on LinkedIn">
+          <img class="footer-socials__icon" src="/linkedin.webp" alt="" />
+        </a>
+      </div>
+
+      <p class="footer-copyright">
+        Copyright © 2026.<br>
+        Social Impact Investment Fund.<br>
+        All Rights Reserved
+      </p>
     </div>
   </footer>
   <noscript>
@@ -60,75 +92,133 @@
 
 <style scoped>
 .site-footer {
+  background: #000000;
+  box-sizing: border-box;
+  color: #eff8ff;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: var(--dark-blue);
-  gap: 1rem;
-  padding: 1rem;
+  gap: clamp(2rem, 3.6vw, 3.2rem);
+  padding: clamp(2.6rem, 4.5vw, 4rem) max(1.5rem, 4vw) clamp(2rem, 3vw, 3rem);
+  text-transform: uppercase;
 }
 
-.footer-left {
+.site-footer__main {
   align-items: center;
+  display: grid;
+  gap: clamp(2rem, 4vw, 4.2rem);
+  grid-template-columns: minmax(16rem, 0.65fr) minmax(0, 2fr);
+}
+
+.footer-info {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: clamp(1.1rem, 2vw, 1.65rem);
+  font-family: var(--font-sans);
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 0.96;
 }
 
-.footer-left__image {
-  width: 6rem;
-  height: 6rem;
+.footer-info__line {
+  margin: 0;
 }
 
-.footer-left__text {
-  color: var(--off-white);
-  text-align: center;
-  font-size: 0.9rem;
-  margin: 0 0 0.2rem 0;
+.footer-nav {
+  border: 1px solid rgba(239, 248, 255, 0.34);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  min-height: clamp(13rem, 21vw, 19rem);
 }
 
-.footer-right {
+.footer-nav__column {
+  border-left: 1px solid rgba(239, 248, 255, 0.34);
+  padding: clamp(1.35rem, 2vw, 1.9rem);
+}
+
+.footer-nav__column:first-child {
+  border-left: 0;
+}
+
+.footer-nav__title {
+  color: #eff8ff;
+  font-family: var(--font-sans);
+  font-size: clamp(1.05rem, 1.45vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  line-height: 1.1;
+  margin: 0 0 clamp(1.4rem, 2.4vw, 2.25rem);
+}
+
+.footer-nav__list {
   display: flex;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: clamp(0.85rem, 1.45vw, 1.25rem);
+  font-family: var(--font-sans);
+  font-size: clamp(0.82rem, 1vw, 0.98rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.footer-right__icon {
-  height: 2.5rem;
-  font-size: 2.5rem;
+.footer-nav__list a,
+.footer-socials a {
+  transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
 }
 
-.fa-instagram {
-  background: linear-gradient(45deg, #F58529, #E4405F, #D93F8D, #8a3ab9);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.footer-nav__list a:hover,
+.footer-socials a:hover {
+  opacity: 0.72;
 }
 
-.fa-facebook {
-  color: #0165E1;
+.site-footer__bottom {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
 }
 
-.fa-linkedin {
-  color: #0A66C2;
+.footer-socials {
+  align-items: center;
+  display: flex;
+  gap: clamp(1.25rem, 2vw, 2rem);
 }
 
-@media (min-width: 992px) {
-  .site-footer {
-    padding: 1rem 4rem;
-    flex-direction: row;
-    justify-content: space-between;
-  }
+.footer-socials__join {
+  align-items: center;
+  background: #eff8ff;
+  border-radius: 999px;
+  color: #0f1424;
+  display: inline-flex;
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 700;
+  height: 2.7rem;
+  justify-content: center;
+  line-height: 1;
+  width: 2.7rem;
+}
 
-  .footer-left {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-  }
+.footer-socials__icon {
+  display: block;
+  filter: brightness(0) invert(96%) sepia(7%) saturate(609%) hue-rotate(176deg) brightness(104%) contrast(102%);
+  height: clamp(2.2rem, 3vw, 3rem);
+  object-fit: contain;
+  width: auto;
+}
 
-  .footer-left__text {
-    text-align: left;
-  }
+.footer-copyright {
+  color: #eff8ff;
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 1.25vw, 1.22rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 0.9;
+  margin: 0;
+  text-align: left;
 }
 
 .nojs-popup__msg-box {
@@ -162,5 +252,48 @@
   display: flex;
   gap: 1rem;
   align-items: center;
+}
+
+@media (max-width: 980px) {
+  .site-footer__main {
+    align-items: stretch;
+    grid-template-columns: 1fr;
+  }
+
+  .footer-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-nav__column:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .footer-nav__column:nth-child(n + 3) {
+    border-top: 1px solid rgba(239, 248, 255, 0.34);
+  }
+}
+
+@media (max-width: 620px) {
+  .site-footer {
+    padding-inline: 1.25rem;
+  }
+
+  .footer-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-nav__column,
+  .footer-nav__column:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .footer-nav__column:not(:first-child) {
+    border-top: 1px solid rgba(239, 248, 255, 0.34);
+  }
+
+  .site-footer__bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 </style>

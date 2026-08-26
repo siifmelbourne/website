@@ -3,9 +3,9 @@
     <div class="site-overlay__window"></div>
     <nav class="site-overlay__body">
       <NuxtLink class="site-overlay__link text--sans" href="/about-us">about us</NuxtLink>
-      <NuxtLink class="site-overlay__link text--sans" href="/committee">committee</NuxtLink>
-      <NuxtLink class="site-overlay__link text--sans" href="/publications">publications</NuxtLink>
+      <NuxtLink class="site-overlay__link text--sans" href="/contact/corporate-partner">sponsors</NuxtLink>
       <NuxtLink class="site-overlay__link text--sans" href="/events">events</NuxtLink>
+      <NuxtLink class="site-overlay__link text--sans" href="/publications">publications</NuxtLink>
       <NuxtLink class="site-overlay__link text--sans" href="/contact">contact</NuxtLink>
     </nav>
   </dialog>
@@ -36,12 +36,12 @@
 }
 
 .site-overlay__body {
-  background-color: var(--off-white);
+  background-color: var(--dark-blue);
+  color: var(--off-white);
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  /* Should really define a grey variable */
-  border-top: 2px solid grey;
+  border-top: 1px solid rgba(255, 245, 238, 0.14);
   pointer-events: auto
 }
 

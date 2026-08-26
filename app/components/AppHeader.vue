@@ -1,17 +1,17 @@
 <template>
   <header class="site-nav">
     <NuxtLink href="/">
-      <NuxtImg
+      <img
         class="site-nav__logo"
-        src="/v1772546286/SIIF_Logo_PNG_High_Quality_Dark_Blue_zogssr.png"
+        src="/images/siif-white-logo.png"
         alt="SIIF Logo"
       />
     </NuxtLink>
     <ul class="site-nav__links">
       <li class="text"><NuxtLink href="/about-us">about us</NuxtLink></li>
-      <li class="text"><NuxtLink href="/committee">committee</NuxtLink></li>
-      <li class="text"><NuxtLink href="/publications">publications</NuxtLink></li>
+      <li class="text"><NuxtLink href="/contact/corporate-partner">sponsors</NuxtLink></li>
       <li class="text"><NuxtLink href="/events">events</NuxtLink></li>
+      <li class="text"><NuxtLink href="/publications">publications</NuxtLink></li>
       <li class="text"><NuxtLink href="/contact">contact</NuxtLink></li>
     </ul>
     <MenuIcon />
@@ -21,17 +21,19 @@
 <style scoped>
 .site-nav {
   height: 6rem;
-  background: var(--off-white);
-  max-width: 108rem;
-  padding: 0 1rem;
-  margin: 0 auto;
+  background: var(--dark-blue);
+  border-bottom: 1px solid rgba(255, 245, 238, 0.12);
+  color: var(--off-white);
+  padding: 0 max(1rem, 3vw);
   display: flex;
   align-items: center;
   justify-content: space-between
 }
 
 .site-nav__logo {
-  height: 2.5rem
+  display: block;
+  height: 3.1rem;
+  width: auto
 }
 
 .site-nav__links {
@@ -48,7 +50,11 @@ body:has(#site-overlay:target) .site-nav__links {
 @media (min-width: 992px) {
   .site-nav__links {
     display: flex;
-    gap: 2rem
+    gap: 2rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase
   }
 }
 </style>
