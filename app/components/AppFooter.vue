@@ -12,7 +12,7 @@
           <h2 class="footer-nav__title">About Us</h2>
           <ul class="footer-nav__list">
             <li><NuxtLink to="/about-us">Who We Are</NuxtLink></li>
-            <li><NuxtLink to="/committee/2026-sem-1">Committee</NuxtLink></li>
+            <li><NuxtLink to="/committee">Committee</NuxtLink></li>
             <li><NuxtLink to="/contact/corporate-partner">Partner</NuxtLink></li>
             <li><NuxtLink to="/contact/corporate-partner">Sponsors</NuxtLink></li>
           </ul>
@@ -133,6 +133,7 @@
 
 .footer-nav__column {
   border-left: 1px solid rgba(239, 248, 255, 0.34);
+  min-width: 0;
   padding: clamp(1.35rem, 2vw, 1.9rem);
 }
 
@@ -143,11 +144,14 @@
 .footer-nav__title {
   color: #eff8ff;
   font-family: var(--font-sans);
-  font-size: clamp(1.05rem, 1.45vw, 1.45rem);
+  font-size: clamp(0.9rem, 1.15vw, 1.18rem);
   font-weight: 600;
-  letter-spacing: 0.07em;
-  line-height: 1.1;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
   margin: 0 0 clamp(1.4rem, 2.4vw, 2.25rem);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .footer-nav__list {

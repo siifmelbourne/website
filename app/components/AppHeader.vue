@@ -9,7 +9,7 @@
     </NuxtLink>
     <ul class="site-nav__links">
       <li class="text"><NuxtLink href="/about-us">about us</NuxtLink></li>
-      <li class="text"><NuxtLink href="/contact/corporate-partner">sponsors</NuxtLink></li>
+      <li class="text"><NuxtLink href="/committee">committee</NuxtLink></li>
       <li class="text"><NuxtLink href="/events">events</NuxtLink></li>
       <li class="text"><NuxtLink href="/publications">publications</NuxtLink></li>
       <li class="text"><NuxtLink href="/contact">contact</NuxtLink></li>

@@ -83,14 +83,8 @@ export default defineNuxtConfig({
         'surrogate-control': 'no-store'
       }
     },
-    '/committee': {
-      redirect: '/committee/2026-sem-1'
-    },
     '/contact': {
       redirect: '/contact/club-membership'
-    },
-    '/publications': {
-      redirect: '/publications/articles'
     }
   },
 
