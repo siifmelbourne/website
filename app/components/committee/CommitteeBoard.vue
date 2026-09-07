@@ -151,14 +151,8 @@ function investmentPods(section: { members: CommitteeMember[] }) {
 </script>
 
 <template>
+  <Banner title="Our Committee" />
   <main class="committee-page">
-    <section class="committee-hero" aria-labelledby="committee-title">
-      <div class="committee-hero__inner">
-        <h1 id="committee-title" class="committee-hero__title text--serif">Our Committee</h1>
-        <div class="committee-hero__divider" aria-hidden="true"></div>
-      </div>
-    </section>
-
     <section class="committee-board" aria-label="Committee members">
       <div v-if="pending" class="committee-state text--sans">Loading committee members...</div>
 
@@ -346,40 +340,6 @@ function investmentPods(section: { members: CommitteeMember[] }) {
   min-height: 100vh;
 }
 
-.committee-hero {
-  background-color: var(--committee-bg);
-  background-image:
-    linear-gradient(180deg, rgba(15, 20, 36, 0.5) 0%, rgba(15, 20, 36, 0.82) 100%),
-    var(--subpage-cityscape-header);
-  background-position: center, center 42%;
-  background-repeat: no-repeat;
-  background-size: cover, cover;
-  min-height: clamp(9rem, 20vw, 14rem);
-  padding: clamp(2.4rem, 5vw, 4.2rem) max(1.15rem, 7vw) clamp(1.7rem, 4vw, 3rem);
-  text-align: center;
-}
-
-.committee-hero__inner {
-  margin: 0 auto;
-  max-width: 72rem;
-  transform: translateY(var(--subpage-header-title-offset));
-}
-
-.committee-hero__title {
-  color: var(--committee-ink);
-  font-size: clamp(3rem, 8vw, 7rem);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 0.86;
-  margin: 0;
-}
-
-.committee-hero__divider {
-  background: var(--committee-accent);
-  height: 0.12rem;
-  margin: clamp(1rem, 2vw, 1.4rem) auto 0;
-  width: min(12rem, 40vw);
-}
 
 .committee-board {
   padding: clamp(1.5rem, 3.8vw, 3.5rem) max(1rem, 5vw) clamp(4rem, 7vw, 6.5rem);
@@ -558,9 +518,6 @@ function investmentPods(section: { members: CommitteeMember[] }) {
 }
 
 @media (max-width: 640px) {
-  .committee-hero {
-    padding-top: 2rem;
-  }
 
   .committee-section__header {
     grid-template-columns: 1fr;
