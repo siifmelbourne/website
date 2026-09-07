@@ -152,15 +152,8 @@ const formatCompactDate = (date: string) => {
 </script>
 
 <template>
+  <Banner title="Publications" />
   <main class="publications-page">
-    <section class="publications-hero" aria-labelledby="publications-title">
-      <div class="publications-hero__shade"></div>
-      <div class="publications-hero__content">
-        <h1 id="publications-title" class="publications-hero__title text--serif">Publications</h1>
-        <span class="publications-hero__rule" aria-hidden="true"></span>
-      </div>
-    </section>
-
     <section class="publication-section" aria-labelledby="macro-title">
       <div class="section-heading">
         <h2 id="macro-title" class="section-heading__title text--serif">Macro Market Updates</h2>
@@ -262,50 +255,6 @@ const formatCompactDate = (date: string) => {
   background: var(--publication-bg);
 }
 
-.publications-hero {
-  min-height: clamp(9rem, 20vw, 14rem);
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  background-color: var(--publication-bg);
-  background-image: var(--subpage-cityscape-header);
-  background-size: cover;
-  background-position: center 42%;
-  background-repeat: no-repeat;
-}
-
-.publications-hero__shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(15, 20, 36, 0.5) 0%, rgba(15, 20, 36, 0.82) 100%);
-}
-
-.publications-hero__content {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  padding: clamp(2.1rem, 5vw, 4rem) 1.5rem clamp(1.7rem, 3.6vw, 2.9rem);
-}
-
-.publications-hero__title {
-  margin: 0;
-  color: var(--publication-fg);
-  font-family: var(--font-serif);
-  font-size: clamp(2.65rem, 5vw, 4.55rem);
-  font-weight: 400;
-  line-height: 0.95;
-  transform: translateY(var(--subpage-header-title-offset));
-}
-
-.publications-hero__rule {
-  width: min(8.5rem, 34vw);
-  height: 0.12rem;
-  display: block;
-  margin: clamp(0.65rem, 1vw, 0.9rem) auto 0;
-  background: #7981d7;
-  transform: translateY(var(--subpage-header-title-offset));
-}
 
 .publication-section {
   width: min(86rem, calc(100% - 2.5rem));

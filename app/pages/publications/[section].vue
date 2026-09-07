@@ -16,7 +16,7 @@ const section = computed(() => {
 </script>
 
 <template>
-  <Banner title="publications" />
+  <Banner title="Publications" />
   <main class="main">
     <nav class="main-nav">
       <ul>
