@@ -12,10 +12,9 @@ const props = defineProps({
   },
 })
 
-const img = useImage()
-const imgUrl = img('/v1772458824/IMG_8254_vo2ius.jpg', { width: 1600 })
+const imgUrl = '/images/cityscape-header.png'
 const backgroundStyles = {
-  backgroundImage: `url('${imgUrl}')`
+  backgroundImage: `linear-gradient(180deg, rgba(15, 20, 36, 0.5) 0%, rgba(15, 20, 36, 0.82) 100%), url('${imgUrl}')`
 }
 
 useHead({
@@ -33,10 +32,9 @@ useHead({
 <style scoped>
 .hero-banner {
   width: 100%;
-  height: 32rem;
-  background-color: rgba(0, 0, 0, 0.7);
-  background-blend-mode: darken;
-  background-position: 50% 30%;
+  min-height: clamp(9rem, 20vw, 14rem);
+  background-color: #0f1424;
+  background-position: center, center 42%;
   background-size: cover;
   display: flex;
   align-items: center;
@@ -44,5 +42,9 @@ useHead({
   padding: 4rem;
   box-sizing: border-box;
   text-align: center;
+}
+
+.hero-banner .text {
+  transform: translateY(var(--subpage-header-title-offset));
 }
 </style>

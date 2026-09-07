@@ -347,7 +347,14 @@ function investmentPods(section: { members: CommitteeMember[] }) {
 }
 
 .committee-hero {
-  background: linear-gradient(180deg, #111725 0%, var(--committee-bg) 100%);
+  background-color: var(--committee-bg);
+  background-image:
+    linear-gradient(180deg, rgba(15, 20, 36, 0.5) 0%, rgba(15, 20, 36, 0.82) 100%),
+    var(--subpage-cityscape-header);
+  background-position: center, center 42%;
+  background-repeat: no-repeat;
+  background-size: cover, cover;
+  min-height: clamp(9rem, 20vw, 14rem);
   padding: clamp(2.4rem, 5vw, 4.2rem) max(1.15rem, 7vw) clamp(1.7rem, 4vw, 3rem);
   text-align: center;
 }
@@ -355,6 +362,7 @@ function investmentPods(section: { members: CommitteeMember[] }) {
 .committee-hero__inner {
   margin: 0 auto;
   max-width: 72rem;
+  transform: translateY(var(--subpage-header-title-offset));
 }
 
 .committee-hero__title {

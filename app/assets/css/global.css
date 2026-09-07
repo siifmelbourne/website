@@ -50,6 +50,8 @@ dialog {
   --off-white: #fff5ee;
   --off-black: #0e0e10;
   --dark-blue: #0f1424;
+  --subpage-cityscape-header: url('/images/cityscape-header.png');
+  --subpage-header-title-offset: clamp(0.65rem, 1.3vw, 1.1rem);
   --font-serif: 'CMU Serif', 'Computer Modern Serif', 'Latin Modern Roman', Didot, 'Bodoni MT', 'Noto Serif Display', serif;
   --font-sans: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }

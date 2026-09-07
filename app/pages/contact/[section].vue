@@ -93,14 +93,28 @@ if (import.meta.server) {
   --contact-muted: rgba(239, 248, 255, 0.72);
   --contact-line: rgba(239, 248, 255, 0.34);
   --contact-accent: #7981d7;
+  --contact-pad-block-start: clamp(1.7rem, 4vw, 3.4rem);
+  --contact-pad-inline: max(1.25rem, 7vw);
 
   background: var(--contact-ink);
   color: var(--contact-light);
   min-height: 100vh;
-  padding: clamp(1.7rem, 4vw, 3.4rem) max(1.25rem, 7vw) clamp(4rem, 7vw, 6rem);
+  padding: var(--contact-pad-block-start) var(--contact-pad-inline) clamp(4rem, 7vw, 6rem);
 }
 
 .contact-hero {
+  background-color: var(--contact-ink);
+  background-image:
+    linear-gradient(180deg, rgba(15, 20, 36, 0.5) 0%, rgba(15, 20, 36, 0.82) 100%),
+    var(--subpage-cityscape-header);
+  background-position: center, center 42%;
+  background-repeat: no-repeat;
+  background-size: cover, cover;
+  display: grid;
+  justify-items: center;
+  margin: calc(0rem - var(--contact-pad-block-start)) calc(0rem - var(--contact-pad-inline)) 0;
+  min-height: clamp(9rem, 20vw, 14rem);
+  padding: clamp(2.1rem, 5vw, 4rem) var(--contact-pad-inline) clamp(1.7rem, 3.6vw, 2.9rem);
   text-align: center;
 }
 
@@ -111,12 +125,14 @@ if (import.meta.server) {
   font-weight: 400;
   line-height: 0.95;
   margin: 0;
+  transform: translateY(var(--subpage-header-title-offset));
 }
 
 .contact-hero__divider {
   background: var(--contact-accent);
   height: 0.12rem;
   margin: clamp(0.65rem, 1vw, 0.9rem) auto 0;
+  transform: translateY(var(--subpage-header-title-offset));
   width: min(8.5rem, 34vw);
 }
 
