@@ -1,4 +1,6 @@
-<script setup>
+<script setup lang="ts">
+import PublicationsMacroCarousel from '~/components/publications/PublicationsMacroCarousel.vue'
+
 if (import.meta.server) {
   useSeoMeta({
     title: 'Publications | Social Impact Investment Fund',
@@ -12,184 +14,233 @@ if (import.meta.server) {
   })
 }
 
-const macroUpdates = [
+type MacroUpdate = {
+  date: string
+  link: string
+  title: string
+  fallbackImage: string
+}
+
+type MacroFrame = {
+  date: string
+  link?: string
+  slides: string[]
+}
+
+type InterestPiece = {
+  title: string
+  description: string
+  date: string
+  link: string
+  image: string
+}
+
+// Historical 2025 posts are kept as a local UI fallback. Newer 2026 post links
+// and carousel slide data are provided centrally by /api/macro-markets.
+const legacyMacroUpdates: MacroUpdate[] = [
+  { date: 'October 13, 2025', title: 'Macro Market Update', link: 'https://www.instagram.com/p/DPvm9NCk4lM/', fallbackImage: '/images/macro-market-cover-aug.png' },
+  { date: 'September 29, 2025', title: 'Macro Market Update', link: 'https://www.instagram.com/p/DPK0IYPk06i/', fallbackImage: '/images/macro-market-movements-aug.png' },
+  { date: 'September 15, 2025', title: 'Macro Market Update', link: 'https://www.instagram.com/p/DOma6AVEzJ4/', fallbackImage: '/images/macro-market-cover-aug.png' },
+  { date: 'September 1, 2025', title: 'Macro Market Update', link: 'https://www.instagram.com/p/DOCXyftEwGK/', fallbackImage: '/images/macro-market-movements-aug.png' },
+  { date: 'August 18, 2025', title: 'Macro Market Update', link: 'https://www.instagram.com/p/DNemFRrzYsd/', fallbackImage: '/images/macro-market-cover-aug.png' },
+  { date: 'May 5, 2025', title: 'Macro Market Update', link: 'https://www.instagram.com/p/DJQJOpfTQEU/', fallbackImage: '/images/macro-market-movements-aug.png' },
+  { date: 'April 28, 2025', title: 'Macro Market Update', link: 'https://www.instagram.com/p/DI-OmyLT6sR/', fallbackImage: '/images/macro-market-cover-aug.png' },
+  { date: 'April 7, 2025', title: 'Macro Market Update', link: 'https://www.instagram.com/p/DIIQjRATEiX/', fallbackImage: '/images/macro-market-movements-aug.png' },
+  { date: 'March 31, 2025', title: 'Macro Market Update', link: 'https://www.instagram.com/p/DH2fz0qT3hB/', fallbackImage: '/images/macro-market-cover-aug.png' },
+  { date: 'March 24, 2025', title: 'Macro Market Update', link: 'https://www.instagram.com/p/DHkwIrNTd5a/', fallbackImage: '/images/macro-market-movements-aug.png' }
+]
+
+const interestPieces: InterestPiece[] = [
   {
-    title: 'Macro Market Update',
-    date: '03/08/2026',
+    title: 'Global Macro Outlook',
+    description: 'A concise macroeconomic briefing exploring inflation, interest-rate trends, commodity cycles and foreign-exchange outlooks shaping global markets over 2025–27.',
+    date: 'December 17, 2025',
+    link: '/publications/articles',
     image: '/images/macro-market-cover-aug.png'
   },
   {
-    title: 'Market Movements',
-    date: '10/08/2026',
+    title: 'Enterprise Value vs. Equity Value: Interview Guide',
+    description: 'A clear, interview-focused guide explaining the difference between Enterprise Value and Equity Value in company valuation.',
+    date: 'May 24, 2025',
+    link: '/publications/articles',
     image: '/images/macro-market-movements-aug.png'
   },
   {
-    title: 'Macro Market Update',
-    date: '17/08/2026',
-    image: '/images/macro-market-cover-aug.png'
-  },
-  {
-    title: 'Market Movements',
-    date: '24/08/2026',
-    image: '/images/macro-market-movements-aug.png'
-  },
-  {
-    title: 'Macro Market Update',
-    date: '31/08/2026',
-    image: '/images/macro-market-cover-aug.png'
+    title: 'DCF Analysis: Interview Guide',
+    description: 'A concise interview guide to walking through a DCF analysis, breaking down the key steps, formulas and valuation logic.',
+    date: 'May 11, 2025',
+    link: '/publications/articles',
+    image: '/images/macro-market-update-aug.png'
   }
 ]
 
-const activeMacroIndex = ref(0)
-const macroScroller = ref(null)
-const macroCards = ref([])
+const { data: macroFeed } = await useAsyncData<MacroFrame[]>(
+  'publications-macro-feed',
+  () => $fetch('/api/macro-markets'),
+  { default: () => [] }
+)
 
-const setMacroCardRef = (element, index) => {
-  if (element) {
-    macroCards.value[index] = element
+const latestVisibleMacroDate = '2026-05-18'
+
+const normaliseDate = (value: string) => {
+  const isoDay = value.match(/^(\d{4})-(\d{2})-(\d{2})/)
+  if (isoDay) return `${isoDay[1]}-${isoDay[2]}-${isoDay[3]}`
+
+  const parsed = new Date(value)
+  return Number.isNaN(parsed.getTime()) ? value : parsed.toISOString().slice(0, 10)
+}
+
+const macroUpdates = computed<MacroUpdate[]>(() => {
+  const byDate = new Map<string, MacroUpdate>()
+
+  for (const item of legacyMacroUpdates) {
+    byDate.set(normaliseDate(item.date), item)
   }
-}
 
-const handleMacroScroll = () => {
-  const scroller = macroScroller.value
+  for (const frame of macroFeed.value) {
+    if (!frame?.date || !frame?.slides?.length) continue
+    const key = normaliseDate(frame.date)
+    if (key > latestVisibleMacroDate) continue
+    byDate.set(key, {
+      date: frame.date,
+      title: 'Macro Market Update',
+      link: frame.link || '',
+      fallbackImage: frame.slides[0]
+    })
+  }
 
-  if (!scroller) return
-
-  const scrollerCenter = scroller.scrollLeft + scroller.clientWidth / 2
-  let closestIndex = 0
-  let closestDistance = Number.POSITIVE_INFINITY
-
-  macroCards.value.forEach((card, index) => {
-    if (!card) return
-
-    const cardCenter = card.offsetLeft + card.offsetWidth / 2
-    const distance = Math.abs(cardCenter - scrollerCenter)
-
-    if (distance < closestDistance) {
-      closestDistance = distance
-      closestIndex = index
-    }
-  })
-
-  activeMacroIndex.value = closestIndex
-}
-
-const scrollToMacro = (index) => {
-  const card = macroCards.value[index]
-
-  activeMacroIndex.value = index
-  card?.scrollIntoView({
-    behavior: 'smooth',
-    block: 'nearest',
-    inline: 'center'
-  })
-}
-
-onMounted(() => {
-  handleMacroScroll()
+  return [...byDate.values()].sort((a, b) =>
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  )
 })
 
-const interestPieces = [
-  {
-    title: 'Piece Title',
-    author: '[writer name]',
-    date: '17/08/2026',
-    link: '/publications/articles',
-    theme: 'earth'
-  },
-  {
-    title: 'Piece Title',
-    author: '[writer name]',
-    date: '24/08/2026',
-    link: '/publications/articles',
-    theme: 'blueprint'
-  },
-  {
-    title: 'Piece Title',
-    author: '[writer name]',
-    date: '31/08/2026',
-    link: '/publications/articles',
-    theme: 'chart'
-  },
-  {
-    title: 'Piece Title',
-    author: '[writer name]',
-    date: '03/08/2026',
-    link: '/publications/articles',
-    theme: 'exchange'
-  }
-]
+const activeMacroIndex = ref(0)
+const activeSlideIndex = ref(0)
+const activeMacro = computed(() => macroUpdates.value[activeMacroIndex.value] || legacyMacroUpdates[0])
+const activeFeedFrame = computed(() => {
+  const target = normaliseDate(activeMacro.value.date)
+  return macroFeed.value.find((frame) => normaliseDate(frame.date) === target)
+})
+const activeSlides = computed(() => {
+  const slides = activeFeedFrame.value?.slides?.filter(Boolean) ?? []
+  return slides.length ? slides : [activeMacro.value.fallbackImage]
+})
+const activeInstagramLink = computed(() => activeFeedFrame.value?.link || activeMacro.value.link)
+const macroList = ref<HTMLElement | null>(null)
+const selectMacro = (index: number) => {
+  activeMacroIndex.value = index
+  activeSlideIndex.value = 0
+}
+
+const moveMacro = (direction: number) => {
+  const next = Math.min(
+    Math.max(activeMacroIndex.value + direction, 0),
+    macroUpdates.value.length - 1
+  )
+
+  selectMacro(next)
+}
+
+const formatCompactDate = (date: string) => {
+  const parsed = new Date(date)
+  return new Intl.DateTimeFormat('en-AU', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  }).format(parsed)
+}
 </script>
 
 <template>
   <main class="publications-page">
     <section class="publications-hero" aria-labelledby="publications-title">
-      <h1 id="publications-title" class="publications-hero__title text--serif">Publications</h1>
-      <div class="publications-hero__divider" aria-hidden="true"></div>
+      <div class="publications-hero__shade"></div>
+      <div class="publications-hero__content">
+        <h1 id="publications-title" class="publications-hero__title text--serif">Publications</h1>
+        <span class="publications-hero__rule" aria-hidden="true"></span>
+      </div>
     </section>
 
-    <section class="publication-section publication-section--macro" aria-labelledby="macro-title">
-      <div class="section-label">
-        <h2 id="macro-title" class="section-label__title text--serif">Macro Market Update</h2>
-        <NuxtLink class="section-label__link text--sans" to="/publications/macro-markets">........</NuxtLink>
+    <section class="publication-section" aria-labelledby="macro-title">
+      <div class="section-heading">
+        <h2 id="macro-title" class="section-heading__title text--serif">Macro Market Updates</h2>
       </div>
 
-      <div class="macro-layout">
-        <ol class="date-list text--serif" aria-label="Macro market update dates">
-          <li v-for="(update, index) in macroUpdates" :key="update.date">
-            <button
-              class="date-list__button"
-              :class="{ 'date-list__button--active': activeMacroIndex === index }"
-              type="button"
-              :aria-current="activeMacroIndex === index ? 'true' : undefined"
-              @click="scrollToMacro(index)"
-            >
-              <span aria-hidden="true">·</span>
-              {{ update.date }}
-            </button>
-          </li>
-        </ol>
+      <div class="macro-shell">
+        <aside class="macro-sidebar" aria-label="Macro market update dates">
+          <div class="macro-sidebar__rail" aria-hidden="true">........</div>
+          <ol ref="macroList" class="macro-date-list">
+            <li v-for="(update, index) in macroUpdates" :key="update.date">
+              <button
+                type="button"
+                class="macro-date"
+                :class="{ 'macro-date--active': index === activeMacroIndex }"
+                :aria-current="index === activeMacroIndex ? 'date' : undefined"
+                @click="selectMacro(index)"
+              >
+                <span class="macro-date__dot" aria-hidden="true">·</span>
+                <span>{{ formatCompactDate(update.date) }}</span>
+              </button>
+            </li>
+          </ol>
+          <div class="macro-sidebar__rail macro-sidebar__rail--bottom" aria-hidden="true">........</div>
+        </aside>
 
-        <div
-          ref="macroScroller"
-          class="macro-card-row"
-          aria-label="Scrollable macro market updates"
-          @scroll.passive="handleMacroScroll"
-        >
-          <article
-            v-for="(update, index) in macroUpdates"
-            :key="`${update.title}-${update.date}`"
-            :ref="(element) => setMacroCardRef(element, index)"
-            class="macro-card"
-          >
-            <NuxtLink class="macro-card__link" to="/publications/macro-markets">
-              <img class="macro-card__image" :src="update.image" :alt="update.title" />
-              <span class="macro-card__date text--sans">{{ update.date }}</span>
-            </NuxtLink>
-          </article>
+        <div class="macro-viewer-wrap">
+          <div class="macro-viewer-toolbar">
+            <div>
+              <p class="macro-viewer-toolbar__eyebrow">Selected update</p>
+              <p class="macro-viewer-toolbar__date">{{ activeMacro.date }}</p>
+            </div>
+            <a
+              class="macro-viewer-toolbar__link"
+              :href="activeInstagramLink"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Read post on Instagram ↗
+            </a>
+          </div>
+
+          <div class="macro-carousel-shell" aria-live="polite">
+            <PublicationsMacroCarousel
+              :key="normaliseDate(activeMacro.date)"
+              :slides="activeSlides"
+              :alt-base="`${activeMacro.title} – ${activeMacro.date}`"
+              @slide-change="activeSlideIndex = $event"
+            />
+          </div>
+
+          <div class="macro-viewer-controls" aria-label="Macro update navigation">
+            <button type="button" :disabled="activeMacroIndex === 0" @click="moveMacro(-1)">← Newer update</button>
+            <span>{{ activeSlideIndex + 1 }} / {{ activeSlides.length }} pages</span>
+            <button type="button" :disabled="activeMacroIndex === macroUpdates.length - 1" @click="moveMacro(1)">Older update →</button>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="publication-section publication-section--pieces" aria-labelledby="pieces-title">
-      <div class="section-label">
-        <h2 id="pieces-title" class="section-label__title text--serif">Interest Pieces</h2>
-        <NuxtLink class="section-label__link text--sans" to="/publications/articles">.........</NuxtLink>
+    <section class="publication-section publication-section--interest" aria-labelledby="interest-title">
+      <div class="section-heading section-heading--stacked">
+        <h2 id="interest-title" class="section-heading__title text--serif">Interest Pieces</h2>
+        <p class="section-heading__subtitle">Student-written insights on markets, investing, and the global economy.</p>
       </div>
 
-      <div class="piece-grid">
+      <div class="interest-grid">
         <NuxtLink
           v-for="piece in interestPieces"
-          :key="`${piece.title}-${piece.date}`"
-          class="piece-card"
-          :class="`piece-card--${piece.theme}`"
+          :key="piece.title"
           :to="piece.link"
+          class="interest-card"
         >
-          <div class="piece-card__visual" aria-hidden="true"></div>
-          <div class="piece-card__copy">
-            <h3 class="piece-card__title text--sans">{{ piece.title }}</h3>
-            <p class="piece-card__author text--sans">by {{ piece.author }}</p>
-            <p class="piece-card__date text--serif">· {{ piece.date }}</p>
+          <div class="interest-card__image-wrap">
+            <img class="interest-card__image" :src="piece.image" :alt="piece.title" />
+          </div>
+          <div class="interest-card__content">
+            <p class="interest-card__date">{{ piece.date }}</p>
+            <h3 class="interest-card__title text--serif">{{ piece.title }}</h3>
+            <p class="interest-card__description">{{ piece.description }}</p>
+            <span class="interest-card__cta">Read piece ↗</span>
           </div>
         </NuxtLink>
       </div>
@@ -199,357 +250,411 @@ const interestPieces = [
 
 <style scoped>
 .publications-page {
-  --publications-ink: #0f1424;
-  --publications-light: #eff8ff;
-  --publications-line: rgba(239, 248, 255, 0.42);
-  --publications-muted: rgba(239, 248, 255, 0.72);
-  --publications-accent: #7981d7;
-  --publications-pad-block-start: clamp(1.7rem, 4vw, 3.4rem);
-  --publications-pad-inline: max(1.25rem, 7vw);
+  --publication-bg: #0f1424;
+  --publication-fg: #f5f5f0;
+  --publication-muted: rgba(245, 245, 240, 0.7);
+  --publication-line: rgba(245, 245, 240, 0.52);
+  --publication-panel: rgba(255, 255, 255, 0.025);
+  --publication-accent: #c9ced9;
 
-  background: var(--publications-ink);
-  color: var(--publications-light);
   min-height: 100vh;
-  padding: var(--publications-pad-block-start) var(--publications-pad-inline) clamp(4rem, 7vw, 6rem);
+  color: var(--publication-fg);
+  background: var(--publication-bg);
 }
 
 .publications-hero {
-  background-color: var(--publications-ink);
-  background-image:
-    linear-gradient(180deg, rgba(15, 20, 36, 0.5) 0%, rgba(15, 20, 36, 0.82) 100%),
-    var(--subpage-cityscape-header);
-  background-position: center, center 42%;
-  background-repeat: no-repeat;
-  background-size: cover, cover;
-  display: grid;
-  justify-items: center;
-  margin: calc(0rem - var(--publications-pad-block-start)) calc(0rem - var(--publications-pad-inline)) 0;
   min-height: clamp(9rem, 20vw, 14rem);
-  padding: clamp(2.1rem, 5vw, 4rem) var(--publications-pad-inline) clamp(1.7rem, 3.6vw, 2.9rem);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background-color: var(--publication-bg);
+  background-image: var(--subpage-cityscape-header);
+  background-size: cover;
+  background-position: center 42%;
+  background-repeat: no-repeat;
+}
+
+.publications-hero__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 20, 36, 0.5) 0%, rgba(15, 20, 36, 0.82) 100%);
+}
+
+.publications-hero__content {
+  position: relative;
+  z-index: 1;
   text-align: center;
+  padding: clamp(2.1rem, 5vw, 4rem) 1.5rem clamp(1.7rem, 3.6vw, 2.9rem);
 }
 
 .publications-hero__title {
-  color: var(--publications-light);
+  margin: 0;
+  color: var(--publication-fg);
   font-family: var(--font-serif);
   font-size: clamp(2.65rem, 5vw, 4.55rem);
   font-weight: 400;
   line-height: 0.95;
-  margin: 0;
   transform: translateY(var(--subpage-header-title-offset));
 }
 
-.publications-hero__divider {
-  background: var(--publications-accent);
-  height: 0.12rem;
-  margin: clamp(0.65rem, 1vw, 0.9rem) auto 0;
-  transform: translateY(var(--subpage-header-title-offset));
+.publications-hero__rule {
   width: min(8.5rem, 34vw);
+  height: 0.12rem;
+  display: block;
+  margin: clamp(0.65rem, 1vw, 0.9rem) auto 0;
+  background: #7981d7;
+  transform: translateY(var(--subpage-header-title-offset));
 }
 
 .publication-section {
-  margin: clamp(3.4rem, 6vw, 5.2rem) auto 0;
-  max-width: 78rem;
+  width: min(86rem, calc(100% - 2.5rem));
+  margin: 0 auto;
+  padding-top: clamp(4rem, 7vw, 7rem);
 }
 
-.section-label {
-  align-items: end;
-  border-bottom: 1px solid var(--publications-line);
+.publication-section--interest {
+  padding-bottom: clamp(5rem, 8vw, 8rem);
+}
+
+.section-heading {
+  border-bottom: 1px solid var(--publication-line);
+  padding: 0 1.25rem 0.75rem;
+}
+
+.section-heading--stacked {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.section-heading__title {
+  margin: 0;
+  color: var(--publication-fg);
+  font-size: clamp(1.8rem, 2.55vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.section-heading__subtitle {
+  margin: 0;
+  color: var(--publication-muted);
+  font-family: var(--font-sans);
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  letter-spacing: 0.01em;
+}
+
+.macro-shell {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.34fr) minmax(0, 1fr);
+  gap: clamp(2.5rem, 5vw, 5.5rem);
+  padding: clamp(1.8rem, 3vw, 2.8rem) clamp(0.25rem, 1.5vw, 1.25rem) 0;
+}
+
+.macro-sidebar {
+  min-width: 0;
+}
+
+.macro-sidebar__rail {
+  width: fit-content;
+  margin: 0.25rem auto 1rem;
+  color: rgba(245, 245, 240, 0.62);
+  letter-spacing: 0.12em;
+}
+
+.macro-sidebar__rail--bottom {
+  margin: 1rem auto 0;
+}
+
+.macro-date-list {
+  max-height: 25.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 245, 240, 0.45) transparent;
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0.35rem 0.85rem 0.35rem 0;
+  list-style: none;
+}
+
+.macro-date {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.35rem 1fr;
+  align-items: center;
+  gap: 0.25rem;
+  border: 0;
+  background: transparent;
+  color: rgba(245, 245, 240, 0.76);
+  padding: 0.44rem 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 1.45vw, 1.38rem);
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.macro-date:hover,
+.macro-date--active {
+  color: var(--publication-fg);
+  transform: translateX(0.2rem);
+}
+
+.macro-date--active {
+  font-weight: 700;
+}
+
+.macro-date__dot {
+  text-align: center;
+}
+
+.macro-viewer-wrap {
+  min-width: 0;
+}
+
+.macro-viewer-toolbar,
+.macro-viewer-controls {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding-bottom: 0.42rem;
 }
 
-.section-label__title {
-  color: var(--publications-light);
+.macro-viewer-toolbar {
+  margin-bottom: 0.8rem;
+  color: var(--publication-muted);
+}
+
+.macro-viewer-toolbar__eyebrow {
+  margin: 0 0 0.18rem;
+  font: 700 0.7rem/1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.macro-viewer-toolbar__date {
+  margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(1.45rem, 2.1vw, 2rem);
-  font-weight: 400;
+  font-size: 1.05rem;
+  color: var(--publication-fg);
+}
+
+.macro-viewer-toolbar__link,
+.macro-post__instagram,
+.interest-card__cta {
+  color: var(--publication-fg);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.macro-carousel-shell {
+  position: relative;
+  width: min(100%, 46rem);
+  margin: 0 auto;
+  border: 1px solid rgba(245, 245, 240, 0.3);
+  background: rgba(255, 255, 255, 0.018);
+  overflow: hidden;
+}
+
+.macro-viewer-controls {
+  padding-top: 0.85rem;
+  color: var(--publication-muted);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  text-transform: uppercase;
   letter-spacing: 0.08em;
-  line-height: 1;
-  margin: 0;
-  text-transform: uppercase;
 }
 
-.section-label__link {
-  color: var(--publications-muted);
-  font-size: 0.84rem;
-  letter-spacing: 0.12em;
-  line-height: 1;
-  text-transform: uppercase;
-  transition: color 0.2s ease;
-}
-
-.section-label__link:hover {
-  color: var(--publications-light);
-}
-
-.macro-layout {
-  align-items: start;
-  display: grid;
-  gap: clamp(1.7rem, 4vw, 3.5rem);
-  grid-template-columns: minmax(8rem, 0.32fr) minmax(0, 1fr);
-  margin-top: clamp(1.5rem, 3vw, 2.4rem);
-}
-
-.date-list {
-  display: grid;
-  font-family: var(--font-serif);
-  font-size: clamp(0.9rem, 1.1vw, 1rem);
-  gap: 0.42rem;
-  line-height: 1.2;
-  list-style: none;
-  margin: 0;
-  padding: clamp(0.5rem, 1vw, 0.8rem) 0 0;
-}
-
-.date-list__button {
-  background: transparent;
+.macro-viewer-controls button {
   border: 0;
-  color: var(--publications-muted);
+  background: transparent;
+  color: var(--publication-fg);
   cursor: pointer;
   font: inherit;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  padding: 0;
-  text-align: left;
-  transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  padding: 0.35rem 0;
 }
 
-.date-list__button:hover,
-.date-list__button--active {
-  color: var(--publications-light);
+.macro-viewer-controls button:disabled {
+  opacity: 0.3;
+  cursor: default;
 }
 
-.date-list__button--active {
-  transform: translateX(0.18rem);
+.interest-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.4rem, 2.5vw, 2.4rem);
+  padding: clamp(2rem, 3.5vw, 3rem) clamp(0.25rem, 1.5vw, 1.25rem) 0;
 }
 
-.macro-card-row {
+.interest-card {
+  min-width: 0;
+  border: 1px solid rgba(245, 245, 240, 0.52);
+  background: rgba(255, 255, 255, 0.018);
   display: flex;
-  gap: 0;
-  max-width: min(100%, 17rem);
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  scroll-padding-inline: 0;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.macro-card-row::-webkit-scrollbar {
-  display: none;
-}
-
-.macro-card {
-  border: 1px solid rgba(239, 248, 255, 0.28);
-  flex: 0 0 100%;
-  display: block;
+  flex-direction: column;
   overflow: hidden;
-  position: relative;
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
 }
 
-.macro-card__link {
-  display: block;
+.interest-card:hover {
+  transform: translateY(-0.28rem);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(245, 245, 240, 0.82);
 }
 
-.macro-card:hover,
-.piece-card:hover {
-  opacity: 0.86;
-  transform: translateY(-0.16rem);
+.interest-card__image-wrap {
+  aspect-ratio: 1.1 / 1;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(245, 245, 240, 0.28);
 }
 
-.macro-card__image {
-  aspect-ratio: 1 / 1;
-  display: block;
-  height: auto;
-  object-fit: cover;
+.interest-card__image {
   width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: saturate(0.72) brightness(0.82);
+  transition: transform 260ms ease, filter 260ms ease;
 }
 
-.macro-card__date {
-  background: rgba(15, 20, 36, 0.76);
-  bottom: 0;
-  color: var(--publications-light);
-  font-size: 0.68rem;
-  left: 0;
-  letter-spacing: 0.08em;
-  padding: 0.45rem 0.55rem;
-  position: absolute;
-  text-transform: uppercase;
+.interest-card:hover .interest-card__image {
+  transform: scale(1.025);
+  filter: saturate(0.88) brightness(0.9);
 }
 
-.piece-grid {
-  display: grid;
-  gap: clamp(1.5rem, 3vw, 2.4rem) clamp(2rem, 5vw, 5.5rem);
-  grid-template-columns: repeat(2, minmax(0, 16rem));
-  justify-content: center;
-  margin-top: clamp(1.6rem, 3vw, 2.5rem);
+.interest-card__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: clamp(1.2rem, 2vw, 1.7rem);
 }
 
-.piece-card {
-  aspect-ratio: 1 / 1.35;
-  border: 1px solid var(--publications-line);
-  color: var(--publications-light);
-  display: grid;
-  overflow: hidden;
-  position: relative;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+.interest-card__date {
+  margin: 0 0 0.7rem;
+  color: var(--publication-muted);
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
 }
 
-.piece-card__visual,
-.piece-card__visual::before,
-.piece-card__visual::after {
-  inset: 0;
-  position: absolute;
-}
-
-.piece-card__visual::before,
-.piece-card__visual::after {
-  content: "";
-}
-
-.piece-card__copy {
-  align-self: end;
-  padding: clamp(1rem, 2vw, 1.35rem);
-  position: relative;
-  z-index: 1;
-}
-
-.piece-card__title {
-  color: var(--publications-light);
-  font-size: clamp(1.45rem, 2.3vw, 2.1rem);
-  font-weight: 800;
-  letter-spacing: 0;
-  line-height: 0.9;
+.interest-card__title {
   margin: 0;
+  color: var(--publication-fg);
+  font-family: var(--font-serif);
+  font-size: clamp(1.45rem, 2.1vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1.05;
 }
 
-.piece-card__author,
-.piece-card__date {
-  color: rgba(239, 248, 255, 0.82);
-  font-size: clamp(0.65rem, 0.9vw, 0.8rem);
-  letter-spacing: 0.08em;
-  line-height: 1.2;
-  margin: 0.35rem 0 0;
-  text-transform: uppercase;
+.interest-card__description {
+  margin: 1rem 0 1.6rem;
+  color: rgba(245, 245, 240, 0.72);
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  line-height: 1.6;
 }
 
-.piece-card__date {
-  color: rgba(239, 248, 255, 0.72);
-  margin-top: clamp(1rem, 2.5vw, 1.6rem);
+.interest-card__cta {
+  margin-top: auto;
 }
 
-.piece-card--earth .piece-card__visual {
-  background:
-    linear-gradient(180deg, rgba(15, 20, 36, 0.1), rgba(15, 20, 36, 0.72)),
-    radial-gradient(circle at 30% 12%, rgba(242, 219, 164, 0.72), transparent 7%),
-    radial-gradient(circle at 58% 24%, rgba(176, 212, 238, 0.62), transparent 9%),
-    linear-gradient(135deg, #23232a 0%, #46505a 45%, #121722 100%);
-}
+@media (max-width: 900px) {
+  .macro-shell {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 
-.piece-card--earth .piece-card__visual::before {
-  background-image:
-    linear-gradient(35deg, transparent 42%, rgba(239, 248, 255, 0.28) 43%, transparent 45%),
-    linear-gradient(78deg, transparent 50%, rgba(239, 248, 255, 0.16) 51%, transparent 53%);
-  background-size: 4.8rem 4.8rem, 6.2rem 6.2rem;
-  opacity: 0.42;
-}
+  .macro-sidebar {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+  }
 
-.piece-card--blueprint .piece-card__visual {
-  background:
-    linear-gradient(180deg, rgba(9, 18, 38, 0.08), rgba(9, 18, 38, 0.7)),
-    linear-gradient(135deg, #06162f 0%, #16355f 48%, #07101f 100%);
-}
+  .macro-sidebar__rail,
+  .macro-sidebar__rail--bottom {
+    margin: 0;
+    writing-mode: vertical-rl;
+    max-height: 4rem;
+    overflow: hidden;
+  }
 
-.piece-card--blueprint .piece-card__visual::before {
-  background-image:
-    linear-gradient(rgba(126, 180, 238, 0.2) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(126, 180, 238, 0.2) 1px, transparent 1px);
-  background-size: 1.25rem 1.25rem;
-}
+  .macro-date-list {
+    display: flex;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 0.5rem;
+    padding: 0.35rem 0 0.65rem;
+  }
 
-.piece-card--blueprint .piece-card__visual::after {
-  border: 1px solid rgba(174, 213, 255, 0.45);
-  border-radius: 42% 58% 46% 54%;
-  height: 42%;
-  left: 24%;
-  top: 18%;
-  transform: rotate(-14deg);
-  width: 58%;
-}
+  .macro-date-list li {
+    flex: 0 0 auto;
+  }
 
-.piece-card--chart .piece-card__visual {
-  background:
-    linear-gradient(180deg, rgba(16, 14, 18, 0.1), rgba(16, 14, 18, 0.72)),
-    linear-gradient(135deg, #151619 0%, #292319 45%, #0c0f13 100%);
-}
+  .macro-date {
+    width: auto;
+    grid-template-columns: auto 1fr;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid rgba(245, 245, 240, 0.22);
+  }
 
-.piece-card--chart .piece-card__visual::before {
-  background:
-    linear-gradient(145deg, transparent 0 47%, rgba(230, 218, 172, 0.82) 48% 50%, transparent 51%),
-    linear-gradient(20deg, transparent 0 54%, rgba(239, 248, 255, 0.28) 55% 56%, transparent 57%);
-  filter: blur(0.2px);
-}
+  .macro-date:hover,
+  .macro-date--active {
+    transform: none;
+    border-color: rgba(245, 245, 240, 0.75);
+  }
 
-.piece-card--exchange .piece-card__visual {
-  background:
-    linear-gradient(180deg, rgba(10, 18, 30, 0.08), rgba(10, 18, 30, 0.7)),
-    linear-gradient(135deg, #132a40 0%, #5d7181 48%, #07111e 100%);
-}
-
-.piece-card--exchange .piece-card__visual::before {
-  background-image:
-    repeating-linear-gradient(90deg, rgba(239, 248, 255, 0.26) 0 1px, transparent 1px 1.2rem),
-    repeating-linear-gradient(0deg, rgba(239, 248, 255, 0.12) 0 1px, transparent 1px 1rem);
-  opacity: 0.46;
-}
-
-@media (max-width: 760px) {
-  .macro-layout {
+  .interest-grid {
     grid-template-columns: 1fr;
   }
 
-  .date-list {
-    grid-template-columns: repeat(5, auto);
-    justify-content: center;
-    padding-top: 0;
+  .interest-card {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.8fr) minmax(0, 1.2fr);
   }
 
-  .piece-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .interest-card__image-wrap {
+    min-height: 15rem;
+    aspect-ratio: auto;
+    border-right: 1px solid rgba(245, 245, 240, 0.28);
+    border-bottom: 0;
   }
 }
 
-@media (max-width: 560px) {
-  .publications-page {
-    padding-inline: 1rem;
+@media (max-width: 620px) {
+  .publication-section {
+    width: min(100% - 1.4rem, 86rem);
   }
 
-  .section-label {
-    align-items: start;
+  .section-heading {
+    padding-inline: 0.35rem;
+  }
+
+  .macro-shell,
+  .interest-grid {
+    padding-inline: 0;
+  }
+
+  .macro-viewer-toolbar {
+    align-items: flex-start;
     flex-direction: column;
   }
 
-  .date-list {
-    grid-template-columns: repeat(2, auto);
-    justify-content: start;
-  }
-
-  .piece-grid {
+  .interest-card {
     grid-template-columns: 1fr;
   }
 
-  .macro-card-row {
-    max-width: min(100%, 20rem);
-  }
-
-  .piece-grid {
-    max-width: 20rem;
+  .interest-card__image-wrap {
+    min-height: 0;
+    aspect-ratio: 1.55 / 1;
+    border-right: 0;
+    border-bottom: 1px solid rgba(245, 245, 240, 0.28);
   }
 }
 </style>
