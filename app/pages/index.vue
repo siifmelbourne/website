@@ -38,7 +38,7 @@ const heroStyles = {
 
 const stats = [
   {
-    value: '$23,000+',
+    value: '$30,000+',
     label: 'Donated',
     detail: 'All proceeds support our nominated charities.'
   },
