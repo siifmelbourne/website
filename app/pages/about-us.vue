@@ -80,12 +80,8 @@ const pillars = [
 </script>
 
 <template>
+  <Banner title="About Us" />
   <main class="about-page">
-    <section class="about-page-header" aria-labelledby="about-title">
-      <h1 id="about-title" class="about-hero__title text--serif">About Us</h1>
-      <div class="about-hero__divider" aria-hidden="true"></div>
-    </section>
-
     <section class="about-hero" aria-label="About SIIF introduction">
       <div class="about-hero__inner">
         <img
@@ -210,21 +206,6 @@ const pillars = [
   color: var(--about-light);
 }
 
-.about-page-header {
-  background-color: var(--about-ink);
-  background-image:
-    linear-gradient(180deg, rgba(15, 20, 36, 0.5) 0%, rgba(15, 20, 36, 0.82) 100%),
-    var(--subpage-cityscape-header);
-  background-position: center, center 42%;
-  background-repeat: no-repeat;
-  background-size: cover, cover;
-  display: grid;
-  justify-items: center;
-  min-height: clamp(9rem, 20vw, 14rem);
-  padding: clamp(2.1rem, 5vw, 4rem) max(1.25rem, 7vw) clamp(1.7rem, 3.6vw, 2.9rem);
-  text-align: center;
-}
-
 .about-hero {
   background: linear-gradient(180deg, #111725 0%, var(--about-ink) 100%);
   padding: clamp(1.9rem, 4vw, 3.5rem) max(1.25rem, 7vw) clamp(1.8rem, 3.5vw, 3rem);
@@ -236,7 +217,6 @@ const pillars = [
   text-align: center;
 }
 
-.about-hero__title,
 .section-heading,
 .closing-section__title {
   color: var(--about-light);
@@ -246,13 +226,7 @@ const pillars = [
   margin: 0;
 }
 
-.about-hero__title {
-  font-size: clamp(2.7rem, 5vw, 4.6rem);
-  line-height: 0.95;
-  transform: translateY(var(--subpage-header-title-offset));
-}
 
-.about-hero__divider,
 .section-heading::after {
   background: var(--about-accent);
   content: "";
@@ -262,9 +236,6 @@ const pillars = [
   width: min(8rem, 34vw);
 }
 
-.about-hero__divider {
-  transform: translateY(var(--subpage-header-title-offset));
-}
 
 .about-hero__image {
   aspect-ratio: 16 / 9;
@@ -577,16 +548,11 @@ const pillars = [
 }
 
 @media (max-width: 520px) {
-  .about-page-header,
   .about-hero,
   .story-section,
   .values-section,
   .closing-section {
     padding-inline: 1rem;
-  }
-
-  .about-hero__title {
-    font-size: 2.45rem;
   }
 
   .about-hero__image {

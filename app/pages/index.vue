@@ -43,7 +43,7 @@ const stats = [
     detail: 'All proceeds support our nominated charities.'
   },
   {
-    value: '$5,000+',
+    value: '$30,000+',
     label: 'Capital under management',
     detail: 'Real capital deployed through student-led ideas.'
   },
