@@ -33,12 +33,8 @@ const events = [
 </script>
 
 <template>
+  <Banner title="Events" />
   <main class="events-page">
-    <section class="events-hero" aria-labelledby="events-title">
-      <h1 id="events-title" class="events-hero__title text--serif">Events</h1>
-      <div class="events-hero__divider" aria-hidden="true"></div>
-    </section>
-
     <section class="events-list" aria-label="Upcoming SIIF events">
       <article v-for="event in events" :id="event.detailsUrl.slice(1)" :key="event.title" class="event-card">
         <div class="event-card__media">
@@ -94,39 +90,6 @@ const events = [
   padding: var(--events-pad-block-start) var(--events-pad-inline) clamp(18rem, 34vw, 31rem);
 }
 
-.events-hero {
-  background-color: var(--events-ink);
-  background-image:
-    linear-gradient(180deg, rgba(15, 20, 36, 0.5) 0%, rgba(15, 20, 36, 0.82) 100%),
-    var(--subpage-cityscape-header);
-  background-position: center, center 42%;
-  background-repeat: no-repeat;
-  background-size: cover, cover;
-  display: grid;
-  justify-items: center;
-  margin: calc(0rem - var(--events-pad-block-start)) calc(0rem - var(--events-pad-inline)) 0;
-  min-height: clamp(9rem, 20vw, 14rem);
-  padding: clamp(2.1rem, 5vw, 4rem) var(--events-pad-inline) clamp(1.7rem, 3.6vw, 2.9rem);
-  text-align: center;
-}
-
-.events-hero__title {
-  color: var(--events-light);
-  font-family: var(--font-serif);
-  font-size: clamp(2.75rem, 5vw, 4.65rem);
-  font-weight: 400;
-  line-height: 0.95;
-  margin: 0;
-  transform: translateY(var(--subpage-header-title-offset));
-}
-
-.events-hero__divider {
-  background: var(--events-accent);
-  height: 0.12rem;
-  margin: clamp(0.65rem, 1vw, 0.9rem) auto 0;
-  transform: translateY(var(--subpage-header-title-offset));
-  width: min(8.5rem, 34vw);
-}
 
 .events-list {
   display: grid;
