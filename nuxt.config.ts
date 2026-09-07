@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: [
+        '/publications',
         '/publications/macro-markets',
       ],
     },
