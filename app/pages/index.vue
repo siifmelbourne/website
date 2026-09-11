@@ -38,13 +38,13 @@ const heroStyles = {
 
 const stats = [
   {
-    value: '$30,000+',
+    value: '$5,000+',
     label: 'Donated',
     detail: 'All proceeds support our nominated charities.'
   },
   {
-    value: '$30,000+',
-    label: 'Capital under management',
+    value: '$30,000',
+    label: 'Fund under management',
     detail: 'Real capital deployed through student-led ideas.'
   },
   {
@@ -55,10 +55,52 @@ const stats = [
 ]
 
 const partnerLogosImage = '/images/logos-partners.png'
+
+const landingRoot = ref(null)
+let revealObserver = null
+
+onMounted(() => {
+  if (!landingRoot.value || typeof IntersectionObserver === 'undefined') return
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (prefersReducedMotion) return
+
+  const revealItems = Array.from(
+    landingRoot.value.querySelectorAll('[data-scroll-reveal]')
+  )
+
+  revealObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue
+
+        const element = entry.target
+        element.classList.add('is-reveal-visible')
+        revealObserver?.unobserve(element)
+      }
+    },
+    {
+      threshold: 0.14,
+      rootMargin: '0px 0px -10% 0px'
+    }
+  )
+
+  for (const element of revealItems) {
+    const delay = element.dataset.revealDelay || '0ms'
+    element.style.setProperty('--scroll-reveal-delay', delay)
+    element.classList.add('is-reveal-ready')
+    revealObserver.observe(element)
+  }
+})
+
+onBeforeUnmount(() => {
+  revealObserver?.disconnect()
+  revealObserver = null
+})
 </script>
 
 <template>
-  <main class="landing">
+  <main ref="landingRoot" class="landing">
     <section class="hero" :style="heroStyles" aria-labelledby="home-title">
       <div class="hero__inner">
         <h1 id="home-title" class="hero__title text--serif">
@@ -71,7 +113,13 @@ const partnerLogosImage = '/images/logos-partners.png'
     </section>
 
     <section class="stat-strip" aria-label="SIIF at a glance">
-      <article v-for="stat in stats" :key="stat.label" class="stat-card">
+      <article
+        v-for="(stat, index) in stats"
+        :key="stat.label"
+        class="stat-card"
+        data-scroll-reveal
+        :data-reveal-delay="`${index * 90}ms`"
+      >
         <p class="stat-card__value text--serif">{{ stat.value }}</p>
         <h2 class="stat-card__label text--sans">{{ stat.label }}</h2>
         <p class="stat-card__detail text--sans">{{ stat.detail }}</p>
@@ -80,11 +128,16 @@ const partnerLogosImage = '/images/logos-partners.png'
 
     <section class="intro-section">
       <div class="intro-section__left">
-        <h2 class="section-title text--serif">
+        <h2 class="section-title text--serif" data-scroll-reveal>
           <span class="intro-section__title-line">We’re Australia’s premier-run student</span><br>
           <span class="intro-section__title-line">investment fund.</span>
         </h2>
-        <div class="intro-section__media" aria-label="SIIF committee placeholder image">
+        <div
+          class="intro-section__media"
+          aria-label="SIIF committee placeholder image"
+          data-scroll-reveal
+          data-reveal-delay="100ms"
+        >
           <img
             class="intro-section__image"
             src="/images/second-committee.png"
@@ -93,8 +146,12 @@ const partnerLogosImage = '/images/logos-partners.png'
         </div>
       </div>
       <div class="intro-section__copy">
-        <div class="intro-section__divider" aria-hidden="true"></div>
-        <p class="section-body text--sans">
+        <div
+          class="intro-section__divider"
+          aria-hidden="true"
+          data-scroll-reveal
+        ></div>
+        <p class="section-body text--sans" data-scroll-reveal data-reveal-delay="90ms">
           The Social Impact Investment Fund is the first<br>
           and only student led investment fund in<br>
           Victoria managing real capital. We provide<br>
@@ -103,20 +160,36 @@ const partnerLogosImage = '/images/logos-partners.png'
           representatives, and employ those ideas into a<br>
           tangible portfolio.
         </p>
-        <p class="section-body section-body--emphasis text--sans"><em>All</em> proceeds go towards our nominated<br>charities.</p>
-        <NuxtLink class="intro-section__link text--sans" to="/contact">Contact us</NuxtLink>
+        <p
+          class="section-body section-body--emphasis text--sans"
+          data-scroll-reveal
+          data-reveal-delay="170ms"
+        ><em>All</em> proceeds go towards our nominated<br>charities.</p>
+        <NuxtLink
+          class="intro-section__link text--sans"
+          to="/contact/club-membership"
+          data-scroll-reveal
+          data-reveal-delay="240ms"
+        >Contact us</NuxtLink>
       </div>
     </section>
 
     <section class="partners-section" aria-labelledby="partners-title">
       <div class="partners-section__heading">
-        <p class="partners-section__eyebrow text--serif">Our amazing work wouldn't be possible without...</p>
-        <h2 id="partners-title" class="partners-section__title text--serif">Our Partners</h2>
+        <p class="partners-section__eyebrow text--serif" data-scroll-reveal>Our amazing work wouldn't be possible without...</p>
+        <h2
+          id="partners-title"
+          class="partners-section__title text--serif"
+          data-scroll-reveal
+          data-reveal-delay="90ms"
+        >Our Partners</h2>
       </div>
       <div class="partners-grid" aria-label="SIIF partners">
         <img
           class="partner-logo__image"
           :src="partnerLogosImage"
+          data-scroll-reveal
+          data-reveal-delay="160ms"
           alt="River Capital, Susquehanna, Inaam, and YouTrip partner logos"
         />
       </div>
@@ -124,17 +197,24 @@ const partnerLogosImage = '/images/logos-partners.png'
 
     <section class="join-section">
       <div class="join-section__panel">
-        <h2 class="join-section__title text--serif">Why not join us?</h2>
-        <p class="join-section__body text--sans">
+        <h2 class="join-section__title text--serif" data-scroll-reveal>Why not join us?</h2>
+        <p class="join-section__body text--sans" data-scroll-reveal data-reveal-delay="90ms">
           We want <em>you</em> to be a part of siif.<br>
           Follow us on our socials or contact us to get involved!
         </p>
-        <div class="join-section__divider" aria-hidden="true"></div>
+        <div
+          class="join-section__divider"
+          aria-hidden="true"
+          data-scroll-reveal
+          data-reveal-delay="160ms"
+        ></div>
       </div>
       <div class="join-section__aside">
         <img
           class="join-section__image"
           src="/images/snapshots-community.png"
+          data-scroll-reveal
+          data-reveal-delay="120ms"
           alt="Snapshots of SIIF events, student trips, pitch nights, and community gatherings"
         />
       </div>
@@ -562,4 +642,88 @@ const partnerLogosImage = '/images/logos-partners.png'
     width: min(100%, 24rem);
   }
 }
+
+
+/* Landing-page entrance motion is intentionally slower than the global route
+   transition so the opening composition is noticeable without delaying access
+   to the page. These animations have a finite duration and no persistent
+   opacity rule, so content always ends visible. */
+.hero__title,
+.hero__divider,
+.hero__subtitle {
+  animation: landing-hero-reveal 1350ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero__divider {
+  animation-delay: 160ms;
+}
+
+.hero__subtitle {
+  animation-delay: 300ms;
+}
+
+.stat-strip {
+  animation: landing-content-reveal 1450ms 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.intro-section {
+  animation: landing-content-reveal 1550ms 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes landing-hero-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-content-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtle, progressive scroll reveals. Content is visible by default; the
+   hidden starting state is only added after IntersectionObserver is available.
+   That keeps the page usable if client-side JavaScript is interrupted. */
+[data-scroll-reveal].is-reveal-ready {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 760ms cubic-bezier(0.22, 1, 0.36, 1) var(--scroll-reveal-delay, 0ms),
+    transform 760ms cubic-bezier(0.22, 1, 0.36, 1) var(--scroll-reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-scroll-reveal].is-reveal-ready.is-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__title,
+  .hero__divider,
+  .hero__subtitle,
+  .stat-strip,
+  .intro-section {
+    animation: none;
+  }
+
+  [data-scroll-reveal].is-reveal-ready {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 </style>
