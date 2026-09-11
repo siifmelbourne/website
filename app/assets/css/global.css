@@ -65,3 +65,35 @@ body:has(#site-overlay:target) {
   overflow: hidden;
   height: 100vh;
 }
+
+
+/* --------------------------------------------------------------------------
+   Route arrival animation
+   --------------------------------------------------------------------------
+   Do not use Vue page-enter/page-leave opacity classes here. The route content
+   is always visible in its resting state, and a newly inserted page gets a
+   short CSS-only arrival animation. Even if JavaScript navigation, hydration,
+   an API request, or an animation is interrupted, there is no persistent
+   hidden state that can leave the site blank.
+*/
+.route-viewport > * {
+  animation: route-arrive 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes route-arrive {
+  from {
+    opacity: 0.58;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-viewport > * {
+    animation: none;
+  }
+}
+
