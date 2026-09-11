@@ -45,10 +45,11 @@ const props = defineProps<{
   year: string
 }>()
 
-const { data, error, pending } = await useAsyncData(
+const { data, error, pending } = useAsyncData(
   `committee-${props.year}`,
   () => $fetch<RawCommitteeGroup[]>(`/api/committee?year=${encodeURIComponent(props.year)}`),
   {
+    lazy: true,
     keepPreviousData: true
   }
 )
