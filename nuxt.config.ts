@@ -41,6 +41,8 @@ export default defineNuxtConfig({
   },
 
   app: {
+    // Keep route content visible; arrival motion is CSS-only in global.css.
+    pageTransition: false,
     head: {
       title: 'Social Impact Investment Fund', // default fallback title
       htmlAttrs: {
@@ -83,9 +85,6 @@ export default defineNuxtConfig({
         'expires': '0',
         'surrogate-control': 'no-store'
       }
-    },
-    '/contact': {
-      redirect: '/contact/club-membership'
     }
   },
 
