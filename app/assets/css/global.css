@@ -1,7 +1,39 @@
-/* 
+/*
 This file is for setting overrides for elements like <body> or <a>.
 It can also be used to define variables.
 */
+
+@font-face {
+  font-family: 'CMU Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/cmunrm.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'CMU Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/cmunti.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'CMU Serif';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/cmunbx.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'CMU Serif';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/cmunbi.ttf') format('truetype');
+}
 
 a {
   color: inherit;
@@ -18,6 +50,10 @@ dialog {
   --off-white: #fff5ee;
   --off-black: #0e0e10;
   --dark-blue: #0f1424;
+  --subpage-cityscape-header: url('/images/cityscape-header.png');
+  --subpage-header-title-offset: clamp(0.65rem, 1.3vw, 1.1rem);
+  --font-serif: 'CMU Serif', 'Computer Modern Serif', 'Latin Modern Roman', Didot, 'Bodoni MT', 'Noto Serif Display', serif;
+  --font-sans: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 body {
@@ -29,3 +65,35 @@ body:has(#site-overlay:target) {
   overflow: hidden;
   height: 100vh;
 }
+
+
+/* --------------------------------------------------------------------------
+   Route arrival animation
+   --------------------------------------------------------------------------
+   Do not use Vue page-enter/page-leave opacity classes here. The route content
+   is always visible in its resting state, and a newly inserted page gets a
+   short CSS-only arrival animation. Even if JavaScript navigation, hydration,
+   an API request, or an animation is interrupted, there is no persistent
+   hidden state that can leave the site blank.
+*/
+.route-viewport > * {
+  animation: route-arrive 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes route-arrive {
+  from {
+    opacity: 0.58;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-viewport > * {
+    animation: none;
+  }
+}
+

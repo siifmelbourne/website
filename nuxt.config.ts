@@ -8,9 +8,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: [
-        '/committee/2026-sem-1',
-        '/committee/2025-sem-2',
-        '/committee/2025-sem-1',
+        '/publications',
         '/publications/macro-markets',
       ],
     },
@@ -43,6 +41,8 @@ export default defineNuxtConfig({
   },
 
   app: {
+    // Keep route content visible; arrival motion is CSS-only in global.css.
+    pageTransition: false,
     head: {
       title: 'Social Impact Investment Fund', // default fallback title
       htmlAttrs: {
@@ -78,14 +78,13 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/committee': {
-      redirect: '/committee/2026-sem-1'
-    },
-    '/contact': {
-      redirect: '/contact/club-membership'
-    },
-    '/publications': {
-      redirect: '/publications/articles'
+    '/api/committee': {
+      headers: {
+        'cache-control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'pragma': 'no-cache',
+        'expires': '0',
+        'surrogate-control': 'no-store'
+      }
     }
   },
 

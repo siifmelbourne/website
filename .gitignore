@@ -13,6 +13,9 @@ node_modules
 logs
 *.log
 
+# Font files
+*.ttf
+
 # Misc
 .DS_Store
 .fleet

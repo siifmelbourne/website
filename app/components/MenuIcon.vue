@@ -18,7 +18,7 @@
 
 .menu-icon__bar {
   height: 2px;
-  background-color: var(--off-black);
+  background-color: currentColor;
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;

@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
 import CommitteeBoard from '~/components/committee/CommitteeBoard.vue'
 
-const route = useRoute()
-const year = route.params.year as string
+const year = '2026-sem-2'
 
 useSeoMeta({
   title: 'Committee | Social Impact Investment Fund',
