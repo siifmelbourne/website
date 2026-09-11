@@ -74,10 +74,13 @@ const interestPieces: InterestPiece[] = [
   }
 ]
 
-const { data: macroFeed } = await useAsyncData<MacroFrame[]>(
+const { data: macroFeed } = useAsyncData<MacroFrame[]>(
   'publications-macro-feed',
   () => $fetch('/api/macro-markets'),
-  { default: () => [] }
+  {
+    lazy: true,
+    default: () => []
+  }
 )
 
 const latestVisibleMacroDate = '2026-05-18'
