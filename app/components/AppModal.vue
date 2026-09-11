@@ -6,7 +6,7 @@
       <NuxtLink class="site-overlay__link text--sans" href="/committee">committee</NuxtLink>
       <NuxtLink class="site-overlay__link text--sans" href="/events">events</NuxtLink>
       <NuxtLink class="site-overlay__link text--sans" href="/publications">publications</NuxtLink>
-      <NuxtLink class="site-overlay__link text--sans" href="/contact">contact</NuxtLink>
+      <NuxtLink class="site-overlay__link text--sans" href="/contact/club-membership">contact</NuxtLink>
     </nav>
   </dialog>
 </template>

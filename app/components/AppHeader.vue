@@ -12,7 +12,7 @@
       <li class="text"><NuxtLink href="/committee">committee</NuxtLink></li>
       <li class="text"><NuxtLink href="/events">events</NuxtLink></li>
       <li class="text"><NuxtLink href="/publications">publications</NuxtLink></li>
-      <li class="text"><NuxtLink href="/contact">contact</NuxtLink></li>
+      <li class="text"><NuxtLink href="/contact/club-membership">contact</NuxtLink></li>
     </ul>
     <MenuIcon />
   </header>
