@@ -3,7 +3,9 @@
     <div class="not-footer">
       <NuxtRouteAnnouncer />
       <AppHeader />
-      <NuxtPage />
+      <div class="route-viewport">
+        <NuxtPage />
+      </div>
     </div>
   </div>
   <AppFooter />
@@ -19,5 +21,10 @@
 
 .not-footer {
   flex: 1;
+}
+
+.route-viewport {
+  min-width: 0;
+  position: relative;
 }
 </style>
