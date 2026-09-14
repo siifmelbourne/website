@@ -2,13 +2,13 @@
 if (import.meta.server) {
   useSeoMeta({
     title: 'About Us | Social Impact Investment Fund',
-    description: 'Learn about SIIF, Victoria’s first student-led investment fund managing real capital for social impact.',
+    description: 'Learn about SIIF, Victoria’s first student-led investment fund and the only one on campus managing real capital for social impact.',
     robots: 'index, follow',
     ogTitle: 'About SIIF',
-    ogDescription: 'Victoria’s first student-led investment fund managing real capital for social impact.',
+    ogDescription: 'Victoria’s first student-led investment fund and the only one on campus managing real capital for social impact.',
     twitterCard: 'summary_large_image',
     twitterTitle: 'About SIIF',
-    twitterDescription: 'Victoria’s first student-led investment fund managing real capital for social impact.'
+    twitterDescription: 'Victoria’s first student-led investment fund and the only one on campus managing real capital for social impact.'
   })
 }
 
@@ -99,7 +99,7 @@ const pillars = [
                 From that idea, the <span class="about-detail__emphasis">Social Impact Investment Fund</span> was born.
               </p>
               <p class="about-detail__copy">
-                SIIF is Victoria’s first student-led investment fund that manages
+                SIIF is Victoria’s first student-led investment fund. It is the only one on campus that manages
                 <strong>real capital</strong>, makes <strong>real investment decisions</strong>,
                 and generates <strong>real outcomes.</strong> But unlike traditional funds, SIIF
                 measures success in two ways: <strong>financial performance</strong> and

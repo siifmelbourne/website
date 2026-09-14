@@ -41,6 +41,16 @@ const investmentPodDefinitions = [
   }
 ]
 
+const executiveTopRoles = [
+  ['president'],
+  ['cio', 'chiefinvestmentofficer'],
+  ['coo', 'chiefoperatingofficer']
+]
+const executiveBottomRoles = [
+  ['treasurer'],
+  ['secretary']
+]
+
 const props = defineProps<{
   year: string
 }>()
@@ -149,6 +159,18 @@ function investmentPods(section: { members: CommitteeMember[] }) {
     analysts: membersByName(section, pod.analysts)
   }))
 }
+
+function roleRank(member: CommitteeMember, roles: string[][]) {
+  const title = normalizeName(member.title)
+  const rank = roles.findIndex((aliases) => aliases.some((role) => title.includes(role)))
+  return rank === -1 ? roles.length : rank
+}
+
+function executiveMembers(section: { members: CommitteeMember[] }, roles: string[][]) {
+  return section.members
+    .filter((member) => roleRank(member, roles) < roles.length)
+    .sort((a, b) => roleRank(a, roles) - roleRank(b, roles))
+}
 </script>
 
 <template>
@@ -250,6 +272,53 @@ function investmentPods(section: { members: CommitteeMember[] }) {
                     <p class="member-card__role text--sans">Analyst</p>
                   </article>
                 </div>
+              </article>
+            </div>
+          </div>
+
+          <div
+            v-else-if="section.title === 'Executives'"
+            class="committee-section__tiers"
+          >
+            <div class="committee-section__members committee-section__members--executive-top">
+              <article
+                v-for="member in executiveMembers(section, executiveTopRoles)"
+                :key="`${section.id}-executive-top-${member.name}-${member.title}`"
+                class="member-card"
+              >
+                <NuxtImg
+                  class="member-card__image"
+                  :src="memberImage(member)"
+                  :alt="member.name"
+                  width="190"
+                  height="190"
+                  fit="thumb"
+                  :modifiers="{ gravity: 'face', zoom: 0.72 }"
+                  loading="lazy"
+                />
+                <h3 class="member-card__name text--sans">{{ member.name }}</h3>
+                <p class="member-card__role text--sans">{{ memberRole(member) }}</p>
+              </article>
+            </div>
+
+            <div class="committee-section__members committee-section__members--executive-bottom">
+              <article
+                v-for="member in executiveMembers(section, executiveBottomRoles)"
+                :key="`${section.id}-executive-bottom-${member.name}-${member.title}`"
+                class="member-card"
+              >
+                <NuxtImg
+                  class="member-card__image"
+                  :src="memberImage(member)"
+                  :alt="member.name"
+                  width="190"
+                  height="190"
+                  fit="thumb"
+                  :modifiers="{ gravity: 'face', zoom: 0.72 }"
+                  loading="lazy"
+                />
+                <h3 class="member-card__name text--sans">{{ member.name }}</h3>
+                <p class="member-card__role text--sans">{{ memberRole(member) }}</p>
               </article>
             </div>
           </div>
@@ -403,6 +472,14 @@ function investmentPods(section: { members: CommitteeMember[] }) {
   margin: 0 auto;
   max-width: 58rem;
   width: 100%;
+}
+
+.committee-section--executives .committee-section__members--executive-top {
+  max-width: 38rem;
+}
+
+.committee-section--executives .committee-section__members--executive-bottom {
+  max-width: 26rem;
 }
 
 .investment-layout {
