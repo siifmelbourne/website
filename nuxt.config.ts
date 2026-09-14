@@ -48,11 +48,15 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'en'
       },
+      meta: [
+        { name: 'theme-color', content: '#0f1424' },
+      ],
       link: [
-        { rel: 'icon', type: 'image/png', href: '/favicon-16x16.png', sizes: '16x16' },
-        { rel: 'icon', type: 'image/png', href: '/favicon-32x32.png', sizes: '32x32' },
-        { rel: 'icon', type: 'image/png', href: '/favicon-48x48.png', sizes: '48x48' },
         { rel: 'icon', type: 'image/png', href: '/favicon-192x192.png', sizes: '192x192' },
+        { rel: 'icon', type: 'image/png', href: '/favicon-48x48.png', sizes: '48x48' },
+        { rel: 'icon', type: 'image/png', href: '/favicon-32x32.png', sizes: '32x32' },
+        { rel: 'icon', type: 'image/png', href: '/favicon-16x16.png', sizes: '16x16' },
+        { rel: 'shortcut icon', href: '/favicon.ico' },
         { rel: 'apple-touch-icon', href: '/favicon-180x180.png' },
       ],
     }

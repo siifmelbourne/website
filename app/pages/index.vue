@@ -24,6 +24,25 @@ useHead({
       href: heroImage,
       fetchpriority: 'high'
     }
+  ],
+  script: [
+    {
+      key: 'organization-structured-data',
+      type: 'application/ld+json',
+      children: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Social Impact Investment Fund',
+        alternateName: 'SIIF',
+        url: 'https://www.siifmelbourne.com/',
+        logo: 'https://www.siifmelbourne.com/images/siif-logo-seo.png',
+        sameAs: [
+          'https://www.facebook.com/siifund/',
+          'https://instagram.com/siifund_unimelb',
+          'https://www.linkedin.com/company/siif-unimelb/'
+        ]
+      })
+    }
   ]
 })
 
@@ -38,7 +57,7 @@ const heroStyles = {
 
 const stats = [
   {
-    value: '$5,000+',
+    value: '~$1,500',
     label: 'Donated',
     detail: 'All proceeds support our nominated charities.'
   },
@@ -153,8 +172,9 @@ onBeforeUnmount(() => {
         ></div>
         <p class="section-body text--sans" data-scroll-reveal data-reveal-delay="90ms">
           The Social Impact Investment Fund is the first<br>
-          and only student led investment fund in<br>
-          Victoria managing real capital. We provide<br>
+          student-led investment fund in Victoria, and<br>
+          the only one on campus managing real capital.<br>
+          We provide<br>
           students the opportunity to pitch investment<br>
           ideas to a team of committee and partner<br>
           representatives, and employ those ideas into a<br>
