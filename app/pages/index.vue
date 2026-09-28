@@ -148,8 +148,7 @@ onBeforeUnmount(() => {
     <section class="intro-section">
       <div class="intro-section__left">
         <h2 class="section-title text--serif" data-scroll-reveal>
-          <span class="intro-section__title-line">We’re Australia’s premier-run student</span><br>
-          <span class="intro-section__title-line">investment fund.</span>
+          <span class="intro-section__title-line">We’re Australia’s premier student investment fund.</span>
         </h2>
         <div
           class="intro-section__media"
@@ -296,7 +295,9 @@ onBeforeUnmount(() => {
 }
 
 .hero__title-line {
-  white-space: nowrap;
+  display: block;
+  max-width: 18ch;
+  text-wrap: balance;
 }
 
 .hero__divider {
@@ -426,7 +427,9 @@ onBeforeUnmount(() => {
 }
 
 .intro-section__title-line {
-  white-space: nowrap;
+  display: block;
+  max-width: 18ch;
+  text-wrap: balance;
 }
 
 .section-body {
