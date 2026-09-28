@@ -186,7 +186,7 @@ const formatCompactDate = (date: string) => {
           <div class="macro-viewer-toolbar">
             <div>
               <p class="macro-viewer-toolbar__eyebrow">Selected update</p>
-              <p class="macro-viewer-toolbar__date">{{ activeMacro.date }}</p>
+              <p class="macro-viewer-toolbar__date">{{ formatCompactDate(activeMacro.date) }}</p>
             </div>
             <a
               class="macro-viewer-toolbar__link"
