@@ -30,39 +30,18 @@ const { data, pending, error } = await useFetch<EventRecord[]>('/api/events', {
   default: () => []
 })
 
-const selectedFilter = ref('All')
-
 const events = computed(() => data.value || [])
-
-const filterOptions = computed(() => {
-  const categories = events.value
-    .map((event) => event.category)
-    .filter(Boolean)
-    .filter((value, index, list) => list.indexOf(value) === index)
-
-  return ['All', ...categories]
-})
-
-const selectedFilterLabel = computed(() =>
-  selectedFilter.value === 'All' ? 'Filter by State or Campus' : selectedFilter.value
-)
-
-const filteredEvents = computed(() =>
-  selectedFilter.value === 'All'
-    ? events.value
-    : events.value.filter((event) => event.category === selectedFilter.value)
-)
 
 const eventTime = (event: EventRecord) => new Date(event.start).getTime()
 
 const upcomingEvents = computed(() =>
-  filteredEvents.value
+  events.value
     .filter((event) => eventTime(event) >= Date.now())
     .sort((a, b) => eventTime(a) - eventTime(b))
 )
 
 const previousEvents = computed(() =>
-  filteredEvents.value
+  events.value
     .filter((event) => eventTime(event) < Date.now())
     .sort((a, b) => eventTime(b) - eventTime(a))
 )
@@ -71,13 +50,13 @@ const eventSections = computed(() => [
   {
     key: 'upcoming',
     title: 'Upcoming Events',
-    emptyMessage: 'No upcoming events match this filter yet.',
+    emptyMessage: 'No upcoming events are scheduled yet.',
     events: upcomingEvents.value
   },
   {
     key: 'previous',
     title: 'Previous Events',
-    emptyMessage: 'No previous events match this filter yet.',
+    emptyMessage: 'No previous events are available yet.',
     events: previousEvents.value
   }
 ])
@@ -103,30 +82,12 @@ const handleImageError = (event: Event) => {
   <Banner title="Our Events" />
   <main class="events-page">
     <section class="events-shell" aria-label="SIIF events">
-      <details class="events-filter">
-        <summary class="events-filter__summary text--sans">
-          {{ selectedFilterLabel }}
-        </summary>
-        <div class="events-filter__menu" aria-label="Filter by state or campus">
-          <button
-            v-for="option in filterOptions"
-            :key="option"
-            class="events-filter__option text--sans"
-            :class="{ 'events-filter__option--active': option === selectedFilter }"
-            type="button"
-            @click="selectedFilter = option"
-          >
-            {{ option }}
-          </button>
-        </div>
-      </details>
-
       <div v-if="pending" class="events-state text--sans">Loading events...</div>
       <div v-else-if="error" class="events-state events-state--error text--sans">
         Events could not be loaded from Notion.
       </div>
-      <div v-else-if="!filteredEvents.length" class="events-state text--sans">
-        No events match this filter yet.
+      <div v-else-if="!events.length" class="events-state text--sans">
+        No events are available yet.
       </div>
 
       <div v-else class="events-sections">
@@ -222,9 +183,9 @@ const handleImageError = (event: Event) => {
   --events-bg: #fbfaf7;
   --events-ink: #0f1424;
   --events-muted: rgba(15, 20, 36, 0.68);
-  --events-soft: #eef3f8;
+  --events-soft: #eef0f8;
   --events-line: rgba(15, 20, 36, 0.12);
-  --events-accent: #c69a43;
+  --events-accent: #6069bd;
   --events-shadow: 0 1.3rem 3rem rgba(15, 20, 36, 0.13);
 
   background: var(--events-bg);
@@ -236,83 +197,6 @@ const handleImageError = (event: Event) => {
   margin: 0 auto;
   max-width: 80rem;
   padding: clamp(2.8rem, 5vw, 4.4rem) max(1.25rem, 7vw) clamp(5rem, 8vw, 7rem);
-}
-
-.events-filter {
-  display: inline-block;
-  margin-bottom: clamp(1.2rem, 2.4vw, 1.9rem);
-  position: relative;
-  z-index: 2;
-}
-
-.events-filter__summary {
-  align-items: center;
-  background: var(--events-ink);
-  border-radius: 0.34rem;
-  color: #eff8ff;
-  cursor: pointer;
-  display: inline-flex;
-  font-size: 0.92rem;
-  font-weight: 800;
-  gap: 1rem;
-  justify-content: space-between;
-  line-height: 1;
-  list-style: none;
-  min-width: min(18rem, calc(100vw - 2.5rem));
-  padding: 1rem 1.1rem;
-}
-
-.events-filter__summary::-webkit-details-marker {
-  display: none;
-}
-
-.events-filter__summary::after {
-  border-bottom: 2px solid currentColor;
-  border-right: 2px solid currentColor;
-  content: "";
-  height: 0.42rem;
-  transform: rotate(45deg) translateY(-0.12rem);
-  width: 0.42rem;
-}
-
-.events-filter[open] .events-filter__summary::after {
-  transform: rotate(-135deg) translateY(-0.06rem);
-}
-
-.events-filter__menu {
-  background: #ffffff;
-  border: 1px solid var(--events-line);
-  border-radius: 0.34rem;
-  box-shadow: var(--events-shadow);
-  display: grid;
-  gap: 0.25rem;
-  left: 0;
-  margin-top: 0.45rem;
-  min-width: 100%;
-  padding: 0.45rem;
-  position: absolute;
-  top: 100%;
-}
-
-.events-filter__option {
-  background: transparent;
-  border: 0;
-  border-radius: 0.22rem;
-  color: var(--events-ink);
-  cursor: pointer;
-  font-size: 0.86rem;
-  font-weight: 700;
-  line-height: 1.1;
-  padding: 0.72rem 0.8rem;
-  text-align: left;
-  transition: background-color 0.18s ease, color 0.18s ease;
-  white-space: nowrap;
-}
-
-.events-filter__option:hover,
-.events-filter__option--active {
-  background: var(--events-ink);
-  color: #eff8ff;
 }
 
 .events-sections {
@@ -380,15 +264,14 @@ const handleImageError = (event: Event) => {
   border-radius: 0.5rem;
   box-shadow: var(--events-shadow);
   display: grid;
-  grid-template-columns: minmax(18rem, 1fr) minmax(22rem, 0.96fr);
-  min-height: clamp(18rem, 28vw, 24rem);
+  grid-template-columns: clamp(15rem, 27vw, 19rem) minmax(0, 1fr);
   overflow: hidden;
 }
 
 .event-card__media {
   background: var(--events-soft);
   display: block;
-  min-height: 100%;
+  min-height: clamp(15rem, 22vw, 18rem);
   overflow: hidden;
 }
 
@@ -551,7 +434,8 @@ const handleImageError = (event: Event) => {
   }
 
   .event-card__media {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 2 / 1;
+    min-height: 0;
   }
 }
 
@@ -560,21 +444,12 @@ const handleImageError = (event: Event) => {
     padding-inline: 1rem;
   }
 
-  .events-filter,
-  .events-filter__summary {
-    width: 100%;
-  }
-
-  .events-filter__summary {
-    min-width: 0;
-  }
-
-  .events-filter__menu {
-    position: static;
-  }
-
   .event-card__content {
     padding: 1.35rem;
+  }
+
+  .event-card__media {
+    aspect-ratio: 16 / 9;
   }
 
   .event-card__title {
