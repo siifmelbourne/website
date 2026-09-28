@@ -115,7 +115,7 @@
   gap: clamp(1.1rem, 2vw, 1.65rem);
   font-family: var(--font-sans);
   font-size: clamp(0.92rem, 1.1vw, 1.05rem);
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 0.02em;
   line-height: 0.96;
 }
@@ -160,7 +160,7 @@
   gap: clamp(0.85rem, 1.45vw, 1.25rem);
   font-family: var(--font-sans);
   font-size: clamp(0.82rem, 1vw, 0.98rem);
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 0.03em;
   line-height: 1.1;
   list-style: none;
@@ -199,7 +199,7 @@
   display: inline-flex;
   font-family: var(--font-sans);
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 500;
   height: 2.7rem;
   justify-content: center;
   line-height: 1;
@@ -218,7 +218,7 @@
   color: #eff8ff;
   font-family: var(--font-sans);
   font-size: clamp(1rem, 1.25vw, 1.22rem);
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 0.03em;
   line-height: 0.9;
   margin: 0;

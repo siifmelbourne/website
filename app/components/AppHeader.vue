@@ -8,11 +8,11 @@
       />
     </NuxtLink>
     <ul class="site-nav__links">
-      <li class="text"><NuxtLink href="/about-us">about us</NuxtLink></li>
-      <li class="text"><NuxtLink href="/committee">committee</NuxtLink></li>
-      <li class="text"><NuxtLink href="/events">events</NuxtLink></li>
-      <li class="text"><NuxtLink href="/publications">publications</NuxtLink></li>
-      <li class="text"><NuxtLink href="/contact/club-membership">contact</NuxtLink></li>
+      <li class="text"><NuxtLink href="/about-us">About Us</NuxtLink></li>
+      <li class="text"><NuxtLink href="/committee">Committee</NuxtLink></li>
+      <li class="text"><NuxtLink href="/events">Events</NuxtLink></li>
+      <li class="text"><NuxtLink href="/publications">Publications</NuxtLink></li>
+      <li class="text"><NuxtLink href="/contact/club-membership">Contact Us</NuxtLink></li>
     </ul>
     <MenuIcon />
   </header>
