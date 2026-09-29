@@ -9,7 +9,7 @@ type EventRecord = {
   description?: string
   image: string
   signupUrl?: string
-  detailsUrl: string
+  instagramUrl?: string
   status: 'upcoming' | 'past'
 }
 
@@ -68,8 +68,6 @@ const formatDate = (value: string) =>
     timeZone: 'Australia/Melbourne'
   }).format(new Date(value))
 
-const isExternalUrl = (value: string) => value.startsWith('http://') || value.startsWith('https://')
-
 const fallbackImage = '/images/second-committee.png'
 
 const handleImageError = (event: Event) => {
@@ -117,11 +115,12 @@ const handleImageError = (event: Event) => {
               :class="{ 'event-card--past': section.key === 'previous' }"
             >
               <a
+                v-if="event.instagramUrl"
                 class="event-card__media"
-                :href="event.detailsUrl"
-                :target="isExternalUrl(event.detailsUrl) ? '_blank' : undefined"
-                :rel="isExternalUrl(event.detailsUrl) ? 'noopener noreferrer' : undefined"
-                :aria-label="`Find out more about ${event.title}`"
+                :href="event.instagramUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                :aria-label="`View ${event.title} on Instagram`"
               >
                 <img
                   class="event-card__image"
@@ -130,6 +129,14 @@ const handleImageError = (event: Event) => {
                   @error="handleImageError"
                 />
               </a>
+              <div v-else class="event-card__media">
+                <img
+                  class="event-card__image"
+                  :src="event.image || fallbackImage"
+                  :alt="`${event.title} event preview`"
+                  @error="handleImageError"
+                />
+              </div>
 
               <div class="event-card__content">
                 <p class="event-card__category text--sans">{{ event.category }}</p>
@@ -161,10 +168,11 @@ const handleImageError = (event: Event) => {
                     Sign Up
                   </a>
                   <a
+                    v-if="event.instagramUrl"
                     class="event-card__button text--sans"
-                    :href="event.detailsUrl"
-                    :target="isExternalUrl(event.detailsUrl) ? '_blank' : undefined"
-                    :rel="isExternalUrl(event.detailsUrl) ? 'noopener noreferrer' : undefined"
+                    :href="event.instagramUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Find Out More
                   </a>
