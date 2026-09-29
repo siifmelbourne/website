@@ -170,20 +170,16 @@ onBeforeUnmount(() => {
           data-scroll-reveal
         ></div>
         <p class="section-body text--sans" data-scroll-reveal data-reveal-delay="90ms">
-          The Social Impact Investment Fund is the first<br>
-          student-led investment fund in Victoria, and<br>
-          the only one on campus managing real capital.<br>
-          We provide<br>
-          students the opportunity to pitch investment<br>
-          ideas to a team of committee and partner<br>
-          representatives, and employ those ideas into a<br>
-          tangible portfolio.
+          The Social Impact Investment Fund is the first student-led investment fund in Victoria,
+          and the only one on campus managing real capital. We provide students the opportunity to
+          pitch investment ideas to a team of committee and partner representatives, and employ
+          those ideas in a tangible portfolio.
         </p>
         <p
           class="section-body section-body--emphasis text--sans"
           data-scroll-reveal
           data-reveal-delay="170ms"
-        ><em>All</em> proceeds go towards our nominated<br>charities.</p>
+        ><em>All</em> proceeds go towards our nominated charities.</p>
         <NuxtLink
           class="intro-section__link text--sans"
           to="/contact/club-membership"
@@ -407,7 +403,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   margin: clamp(2rem, 4vw, 4rem) 0 0 auto;
-  max-width: 32rem;
+  max-width: 38rem;
   text-align: right;
 }
 
@@ -444,10 +440,11 @@ onBeforeUnmount(() => {
   color: var(--landing-azure);
   font-family: var(--font-serif);
   font-size: clamp(1.18rem, 1.84vw, 1.56rem);
-  line-height: 1.05;
+  line-height: 1.3;
   margin-left: auto;
   margin-right: 0;
-  max-width: 30rem;
+  max-width: 36rem;
+  text-wrap: pretty;
 }
 
 .section-body--emphasis {
@@ -632,7 +629,14 @@ onBeforeUnmount(() => {
   }
 
   .intro-section__copy {
+    align-items: flex-start;
     margin-top: 0;
+    max-width: 40rem;
+    text-align: left;
+  }
+
+  .intro-section .section-body {
+    margin-left: 0;
   }
 
   .intro-section .section-title {
