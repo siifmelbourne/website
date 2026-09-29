@@ -96,7 +96,9 @@ The current table ID is already in `.env.example`. The API accepts common proper
 - Description: `Description`, `Summary`, `Blurb`, or `Copy`
 - Image: page cover, or `Image`, `Poster`, `Cover`, or `Thumbnail`
 - Signup URL: `Sign Up`, `Signup`, `Registration`, `Register`, or `Registration Link`
-- Details URL: `Details`, `Details Link`, `More Info`, or `Find Out More`
+- Instagram URL: `Link`, `Instagram`, `Instagram Link`, `Instagram URL`, `Instagram Post`,
+  `Social Post`, `Details`, `Details Link`, `More Info`, or `Find Out More`. Only Instagram
+  URLs are exposed; the event's internal Notion page is never used as a public fallback.
 - Visibility: optional `Published`, `Publish`, `Visible`, or `Show on Website`
 
 If Notion is not configured, `/api/events` returns local fallback events so the page still renders during development.

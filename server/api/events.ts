@@ -45,7 +45,7 @@ type EventRecord = {
   description?: string
   image: string
   signupUrl?: string
-  detailsUrl: string
+  instagramUrl?: string
   status: 'upcoming' | 'past'
 }
 
@@ -66,7 +66,7 @@ const fallbackEvents: EventRecord[] = [
     description: 'A practical introduction to investment management, SIIF, and student-led portfolio work.',
     image: '/images/second-committee.png',
     signupUrl: 'https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7509/',
-    detailsUrl: '#introduction-to-investment-management',
+    instagramUrl: 'https://www.instagram.com/p/DbVOBqZzROE/',
     status: 'past'
   },
   {
@@ -78,7 +78,7 @@ const fallbackEvents: EventRecord[] = [
     description: 'An evening for students to test investment ideas and learn how SIIF approaches stock pitches.',
     image: '/images/hero-committee.png',
     signupUrl: 'https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7509/',
-    detailsUrl: '#stock-pitch-night',
+    instagramUrl: 'https://www.instagram.com/p/DYE6-OLkzaA/',
     status: 'past'
   }
 ]
@@ -131,6 +131,15 @@ const urlValue = (property?: NotionProperty) => {
   return value.startsWith('http://') || value.startsWith('https://') ? value : ''
 }
 
+const isInstagramUrl = (value: string) => {
+  try {
+    const hostname = new URL(value).hostname.toLowerCase()
+    return hostname === 'instagram.com' || hostname === 'www.instagram.com'
+  } catch {
+    return false
+  }
+}
+
 const imageValue = (page: NotionPage, property?: NotionProperty) => {
   const coverUrl = page.cover?.external?.url || page.cover?.file?.url
   if (coverUrl) return coverUrl
@@ -181,10 +190,21 @@ const toEventRecord = (page: NotionPage): EventRecord | null => {
   const signupUrl =
     urlValue(propertyByNames(properties, ['Sign Up', 'Signup', 'Registration', 'Register', 'Registration Link'])) ||
     undefined
-  const detailsUrl =
-    urlValue(propertyByNames(properties, ['Details', 'Details Link', 'More Info', 'Find Out More'])) ||
-    page.url ||
-    `#${slugify(title)}`
+  const instagramUrlValue = urlValue(
+    propertyByNames(properties, [
+      'Link',
+      'Instagram',
+      'Instagram Link',
+      'Instagram URL',
+      'Instagram Post',
+      'Social Post',
+      'Details',
+      'Details Link',
+      'More Info',
+      'Find Out More'
+    ])
+  )
+  const instagramUrl = isInstagramUrl(instagramUrlValue) ? instagramUrlValue : undefined
 
   return {
     id: slugify(`${date.start}-${title}`) || normalizeId(page.id),
@@ -197,7 +217,7 @@ const toEventRecord = (page: NotionPage): EventRecord | null => {
     description: plainText(propertyByNames(properties, ['Description', 'Summary', 'Blurb', 'Copy'])) || undefined,
     image: imageValue(page, propertyByNames(properties, ['Image', 'Poster', 'Cover', 'Thumbnail'])),
     signupUrl,
-    detailsUrl,
+    instagramUrl,
     status
   }
 }
